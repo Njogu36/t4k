@@ -1,0 +1,449 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Dashboard | Teach For Kenya
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='description' content='')
+    meta(name='keywords' content='')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(rel='stylesheet' type='text/css' href='/learner/css/animate.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/bootstrap.min.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/line-awesome.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/line-awesome-font-awesome.min.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/font-awesome.min.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/jquery.mCustomScrollbar.min.css')
+    link(rel='stylesheet' type='text/css' href='/learner/lib/slick/slick.css')
+    link(rel='stylesheet' type='text/css' href='/learner/lib/slick/slick-theme.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/style.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/responsive.css')
+    style.
+     #file
+     {
+       display:none
+     }
+     #link
+     {
+       display:none
+     }
+    
+  body
+    .wrapper
+      main
+        .main-section
+          .container
+            != messages('message', locals)
+            .main-section-data
+              .row
+                .col-lg-4.col-md-4.pd-left-none.no-pd
+                  .main-left-sidebar.no-margin
+                    .user-data.full-width
+                      .user-profile
+                        .username-dt
+                          .usr-pic
+                            img(src=user.profile_image width='100%' height='100%' alt='')
+                        // username-dt end
+                        .user-specs
+                          h3 #{user.first_name} #{user.last_name}
+                          span #{user.username}
+                      div(style='margin-bottom:5px;')
+                            each tag in user.tags
+                                           span(style='background-color:gray;border-radius:2px;color:white;padding:4px;margin-right:4px') #{tag}
+                                      
+                      // user-profile end
+                      ul.user-fw-status(style='margin-top:15px')
+                        
+                        li
+                          a(href='#' title='', data-toggle='modal', data-target='#editprofile') Edit Profile
+                          &nbsp;
+                          span | 
+                          &nbsp;
+                          a(href='/log_out' title='') Logout
+                          &nbsp;
+                          &nbsp;
+                     
+                        
+                      // tags-sec end
+                      // user-data end
+                    .suggestions.full-width
+                        .sd-title
+                          h3 My KPI'S
+                          a(href="#", data-toggle='modal', data-target='#addnewkpi',style='float:right;padding:2px 5px 2px 5px;background-color:gray;border-color:gray').btn.btn-dark.moveto
+                              | Add KPI
+                             
+                        if kpis.length < 1
+                          .suggestions-list
+                          
+                           .suggestion-usd(style='text-align:center;')
+                             p No kpis found.
+                        if kpis.length > 0
+                          .suggestions-list(style='height:200px;overflow-y:scroll')
+                           each kpi in kpis
+                            .suggestion-usd(style='margin-top:-15px')
+                             p #{kpi.title}
+                              &nbsp;
+                              if kpi.achieved === true
+                                      span(style='color:#0097A7') Achieved
+                              if kpi.achieved === false
+                                      span(style='color:#f59070') Not Achieved
+                              &nbsp;
+                              if kpi.fellow_id === user.id
+                               a(href='/delete_kpi/#{kpi.id}',style='float:right;margin-top:8px;color:red;font-weight:bold;margin-left:10px').fa.fa-trash         
+                            
+                               a(href="/achieved/#{kpi.id}",style='float:right;margin-top:8px;color:green;font-weight:bold;margin-left:10px').fa.fa-refresh
+                               a(href='/edit_kpi/#{kpi.id}',style='float:right;margin-top:8px;color:#293a62;font-weight:bold').fa.fa-edit
+                               
+                        
+                           
+                          
+                    .suggestions.full-width
+                        .sd-title
+                          h3 Fellows
+                          
+                        
+                        if fellows.length === 1
+                          .suggestions-list
+                           .suggestion-usd
+                             span No fellows found.
+
+                        if fellows.length > 1
+                         .suggestions-list(style='height:200px;overflow-y:scroll')
+                          each fellow in fellows
+                           if fellow.id !== user.id
+                            a(href="/view_fellow/#{fellow.id}")
+                             .suggestion-usd(style='margin-top:-15px')
+                              img(src=fellow.profile_image width='35px' height='35px' alt='')
+                              .sgt-text
+                                h4 #{fellow.first_name} #{fellow.last_name}
+                                span #{fellow.username}
+                           
+                          
+                    .suggestions.full-width
+                        .sd-title
+                          h3 Reading List
+                          a(href="#", data-toggle='modal', data-target='#addnewarticle',style='float:right;padding:2px 5px 2px 5px;background-color:gray;border-color:gray').btn.btn-dark.moveto
+                              | Add Article
+                        if reads.length < 1
+
+                         .suggestions-list(style='text-align:center')
+                          .suggestion-usd
+                            p No articles found.
+                        if reads.length > 0
+                         .suggestions-list(style='height:200px;overflow-y:scroll')
+                           each read in reads
+                            .suggestion-usd(style='margin-top:-15px')
+                              p(style='') 
+                                    | #{read.title}
+                              p(style='font-size:0.8em') By: #{read.by}
+                              if read.type === 'link'
+                                                        a(href=read.url,target='_blank',style='color:white').btn.btn-success.btn-sm Visit Link
+                                                          &nbsp;
+                                                          i.fa.fa-link
+                              if read.type === 'file'
+                                                        a(href=read.file,target='_blank',style='color:white',download).btn.btn-success.btn-sm Download File
+                                                          &nbsp;
+                                                          i.fa.fa-download
+                              if read.by === user.first_name + ' '+user.last_name
+                                          &nbsp;
+                                          a(href='/delete_article/#{read.id}',style='color:white').btn.btn-danger.btn-sm Delete
+                                                        
+                         
+                           
+                        
+                .col-lg-8.col-md-8.no-pd
+                  .main-ws-sec
+                    .post-topbar
+                      .comment_box
+                        h4(style='font-weight:bold') My Bold Question
+                         if user.bold_question !== ''
+                              a(href="/edit_bold_question/", data-toggle='modal', data-target='#addboldquestion',style='float:right;color:#293a62;font-weight:bold;margin-left:10px').fa.fa-edit
+                        br
+                        
+                        if user.bold_question === ''
+                          span(style='color:red') No bold question found.
+                        if user.bold_question !== ''
+                          p #{user.bold_question}
+                            
+                        
+                        
+                        if user.bold_question === ''
+                            br
+                            br
+                            a(href="#", data-toggle='modal', data-target='#addboldquestion',style='float:right;padding:2px 5px 2px 5px;background-color:gray;border-color:gray').btn.btn-dark.moveto
+                                    | Add Bold Question
+                                    &nbsp;
+                                    i.fa.fa-plus(style='font-size:0.9em')
+                                           
+                        
+                       
+                    // post-st end
+                    // post-topbar end
+                    .post-topbar
+                      div
+                        h3(style='font-weight:bold') My Journey
+                        
+                        if tasks.length < 1
+                                div(style='margin-top:10px')
+                                            span(style='color:red') No tasks found!
+                        
+                        if tasks.length > 0 
+                          if courses2.length < 1
+                            div(style='margin-top:10px')
+                                            span(style='color:red') No tasks found!
+                            
+                          if courses2.length > 0
+                           div(style='height:250px;overflow-y:scroll;margin-top:15px')
+                            each course in courses2
+                             if course.tasks > 0 
+                              div.table-responsive(style='margin-top:10px;background-color:gray;padding:10px')
+                                h3(style='color:white') #{course.title}
+                              div.table-responsive
+                                table.table
+                                    thead(style='font-weight:bold')
+                                                          th Name
+                                                          th Type
+                                                          th Completed?
+                                    tbody
+                                      each task in tasks 
+                                        if task.course_id === course.id
+                                          tr(style='padding:4px')
+                                            td(style='  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;') #{task.task_title}
+                                            td 
+                                              span(style='background-color:green;padding:5px;color:white').badge #{task.task_type}
+                                            td
+                                              if task.completed === true
+                                                            ul.list-inline
+                                                             li.list-inline-item
+                                                              form(action='/my_journey/true/#{task.id}',method='POST')
+                                                                .form-check.form-check-inline
+                                                                
+                                                                  button(style='padding:5px;color:white;border-color:#42ba96;background-color:#42ba96;border-radius:100%')
+                                                                   i.fa.fa-check(style='color:white')
+                                                                   
+                                                             li.list-inline-item
+                                                              form(action='/my_journey/false/#{task.id}',method='POST')
+                                                                .form-check.form-check-inline
+                                                                 
+                                                                  button(style='padding:5px;color:white;background-color: white;border-color: #dc3545;border-radius:100%')
+                                                                        i.fa.fa-times(style='color:#dc3545')
+                                              if task.completed === false
+                                                             ul.list-inline
+                                                              li.list-inline-item
+                                                                form(action='/my_journey/true/#{task.id}',method='POST')
+                                                                  .form-check.form-check-inline
+                                                                  
+                                                                    button(style='padding:5px;color:white;border-color:gray;border-radius:100%;background-color:white ')
+                                                                      i.fa.fa-check(style='color:white')
+                                                                   
+                                                              li.list-inline-item
+                                                                form(action='/my_journey/false/#{task.id}',method='POST')
+                                                                  .form-check.form-check-inline
+                                                                   
+                                                                    button(style='padding:5px;color:white;background-color: #dc3545;border-color: #dc3545;border-radius:100%')
+                                                                     i.fa.fa-times(style='color:white')
+                              
+                    .post-topbar
+                      .comment_box
+                        h3(style='font-weight:bold') Ongoing module countdown
+                        br
+                        if !course
+                         div(style='text-align:center')
+                            span(style='color:red') No ongoing module found.
+                        if course
+                         a(href="/view_module/#{course.id}")
+                                                      .row
+                                                       .col-md-5(style='margin-top:10px')
+                                                        img(src=course.profile_image,width='50%', alt="")
+                                                       .col-md-7(style='margin-top:30px')
+                                                          h4(style='color:#0097A7')  #{course.title}
+                                                        
+                                                          input(type="hidden",value=course.end_date,id='due_date')
+                                                          br
+                                                          p#demo(style='font-size:2.0em;font-weight:bold')
+                              
+                          
+                      // post-bar end
+                    .top-profiles
+                        .pf-hd
+                          h3 Modules 
+                         
+                        .profiles-slider
+                          if courses.length < 1
+                            div(style='')
+                              p(style='color:red') No modules found.
+                          if courses.length > 0
+                            each course in courses
+                              if course.enabled===true
+                                .user-profy
+                                  img(src=course.profile_image,width='130px',height='130px', alt='')
+                                  h5 #{course.title}
+                                  br
+                                  a(href='/view_module/#{course.id}', title='') View Module
+                   
+                    #editprofile.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            h5#staticBackdropLabel.modal-title Edit Profile
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                              span(aria-hidden='true') ×
+                          .modal-body
+                            h4 Edit profile image
+                            br
+                            form.form(action="/update_image",method='POST',enctype='multipart/form-data')
+                              .form-group
+                                
+                                input.form-control(type='file'  name='file' accept='.png , .jpg, .jpeg' required)
+                              .form-group
+                                 button.btn.btn-primary Save
+                            hr
+                            if tags.length > 0
+                              h4 Edit tags
+                              br
+                              form.form(action="/add_tag",method='POST')
+                                .form-group
+                                  
+                                  select.form-control(name='tag',multiple,required)
+                                             
+                                              each tag in tags
+                                                option=tag.title
+                                .form-group
+                                  button.btn.btn-primary Save
+                              hr
+                            h4 Change password
+                            br
+                            form.form(action="/edit_password",method='POST')
+                              .form-group
+                                
+                                input.form-control(type='password' name='password' placeholder='Password' required)
+                              .form-group
+                                
+                                input.form-control(type='password' name='password2' placeholder='Change password' required)
+                              .form-group
+                                 button.btn.btn-primary Save
+                            
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                    #addnewkpi.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            h5#staticBackdropLabel.modal-title Add new KPI
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                              span(aria-hidden='true') ×
+                          .modal-body
+                            form.form(action="/add_new_kpi",method='POST')
+                              .form-group
+                                
+                                input.form-control(type='text' name='title' placeholder='Enter New Key Performance Indicator' required)
+                              .form-group
+                                 button.btn.btn-primary Save
+                            
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                    #addboldquestion.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            h5#staticBackdropLabel.modal-title Add Bold Question
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                              span(aria-hidden='true') ×
+                          .modal-body
+                            form.form(action="/add_bold_question",method='POST')
+                              .form-group
+                                textarea.form-control(name="bold_question", cols="30", rows="10") #{user.bold_question}
+                                
+                              .form-group
+                                 button.btn.btn-primary Save
+                            
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                    #addnewarticle.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            h5#staticBackdropLabel.modal-title Add New Article
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                              span(aria-hidden='true') ×
+                          .modal-body
+                              p To proceed, kindly choose one option
+                              .custom-control.custom-radio.custom-control-inline(style='margin-top:15px')
+                                        input#customRadioInline1.form-control(type='radio', name='customRadioInline1',value='Link')
+                                        
+                                        label.custom-control-label(for='customRadioInline1')  Website link
+                              .custom-control.custom-radio.custom-control-inline(style='margin-top:15px')
+                                        input#customRadioInline2.form-control(type='radio', name='customRadioInline1',value='File')
+                                        
+                                        label.custom-control-label(for='customRadioInline2')  Upload File
+
+                                                      
+                              #file(style='text-align:left;margin-top:10px')
+                                  form(action='/reading_list_file',method='POST',enctype='multipart/form-data')
+                                                  .form-group
+                                                    h5 Title*
+                                                    input.form-control(type='text', name='title', placeholder='Enter title',required)
+                                                  .form-group
+                                                    h5 Upload File
+                                                    input.form-control(type='file', name='file',accept='.doc , .docx, .dot, .pdf, .dotx, .txt',required)
+                                                  .form-group
+                                                        button(type='submit').btn.btn-primary Save
+                              #link(style='text-align:left;margin-top:10px')
+                                                form(action='/reading_list_link',method='POST')
+                                                  .form-group
+                                                    h5 Title*
+                                                    input.form-control(type='text', name='title', placeholder='Enter title',required)
+                                                  .form-group
+                                                    h5 Website Link
+                                                    input.form-control(type='url', name='url', placeholder='Enter Website Url',required)
+                                                  .form-group
+                                                        button(type='submit').btn.btn-primary Save
+                            
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                         
+                          
+               
+      
+         
+                // conversation-box end
+                // chatbox-list end
+                // theme-layout end
+                script(type='text/javascript' src='/learner/js/jquery.min.js')
+                script(type='text/javascript' src='/learner/js/popper.js')
+                script(type='text/javascript' src='/learner/js/bootstrap.min.js')
+                script(type='text/javascript' src='/learner/js/jquery.mCustomScrollbar.js')
+                script(type='text/javascript' src='/learner/lib/slick/slick.min.js')
+                script(type='text/javascript' src='/learner/js/scrollbar.js')
+                script(type='text/javascript' src='/learner/js/script.js')
+                script(type='text/javascript').
+                  jQuery(function($) {
+                 
+                    $('input[type=radio][name=customRadioInline1]').change(function() {
+                        if (this.value == 'File') {
+                            $('#link').hide()
+                            $('#file').show()
+                        }
+                        else if (this.value == 'Link') {
+                            $('#link').show()
+                            $('#file').hide()
+                        }
+                    });
+                   
+                  });
+                script.
+                        var due_date = document.getElementById('due_date').value
+                        var deadline = new Date(due_date).getTime(); 
+                        var x = setInterval(function() { 
+                        var now = new Date().getTime(); 
+                        var t = deadline - now; 
+                        var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
+                        var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+                        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+                        var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+                        document.getElementById("demo").innerHTML = days + " day(s) "  
+                        
+                            if (t < 0) { 
+                                clearInterval(x); 
+                                document.getElementById("demo").innerHTML = "EXPIRED"; 
+                            } 
+                        }, 1000); 

@@ -1,0 +1,581 @@
+doctype html
+
+html
+  head
+    title #{cohort.title} | #{course.title} - View Module | Teach For Kenya LMS
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+    meta(name='keywords' content='')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    link(href='/administrator/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(href='/administrator/css/style.css' rel='stylesheet' type='text/css')
+    link(href='/administrator/css/font-awesome.css' rel='stylesheet')
+    script(src='/administrator/js/jquery.min.js')
+    script(src='/administrator/js/bootstrap.min.js')
+    script(src='/administrator/js/jquery.metisMenu.js')
+    script(src='/administrator/js/jquery.slimscroll.min.js')
+    // Custom and plugin javascript
+    link(rel='stylesheet' href='/administrator/css/swipebox.css')
+   
+    link(href='/administrator/css/custom.css' rel='stylesheet')
+    script(src='/administrator/js/custom.js')
+    script(src='/administrator/js/screenfull.js')
+    script.
+      $(function () {
+      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+      if (!screenfull.enabled) {
+      return false;
+      }
+      $('#toggle').click(function () {
+      screenfull.toggle($('#container')[0]);
+      });
+      });
+    style.
+     .table thead tr th {
+        padding: 15px !important;
+        font-size: 0.85em;
+        color: black;
+        font-weight:bolder;
+        border-top: none !important;
+     }
+     .nav  li  a {
+            color: black;
+            font-weight: 500;
+            padding: 0px 20px 0px 0px;
+            font-size: 0.85em;
+            border-bottom: 1px solid #E9E9E9;
+     }
+     .nav-item
+     {
+         border-right:1px solid gray
+     }
+      .collapsible {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+      }
+
+      /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+      .active, .collapsible:hover {
+        background-color: #ccc;
+      }
+
+      /* Style the collapsible content. Note: hidden by default */
+      .content {
+        padding: 10px 18px;
+        display: none;
+        overflow: hidden;
+        background-color: white;
+      }
+   
+  body
+    #wrapper
+      // -
+      nav.navbar-default.navbar-static-top(role='navigation')
+        .navbar-header
+          button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          h1
+            a.navbar-brand(href='/administrator/cohort/#{cohort.id}') 
+             img(src="/icon.jpg",width='80px', alt="")
+        .border-bottom
+          .full-left
+           
+         
+          .drop-men
+            ul.nav_1
+              
+              li.dropdown
+                a.dropdown-toggle.dropdown-at(href='#' data-toggle='dropdown')
+                  span.name-caret
+                    | #{user.username}
+                    
+                  img(src='/user.png',width='60px')
+              
+          // /.navbar-collapse
+          .clearfix
+          .navbar-default.sidebar(role='navigation')
+            .sidebar-nav.navbar-collapse
+              ul#side-menu.nav
+                li
+                  a.hvr-bounce-to-right(href='/administrator/cohort/#{cohort.id}')
+                    i.fa.fa-dashboard.nav_icon
+                    span.nav-label Dashboard
+                li
+                  a.hvr-bounce-to-right(href='#')
+                    i.fa.fa-users.nav_icon
+                    span.nav-label Fellows
+                    span.fa.arrow
+                  ul.nav.nav-second-level
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/add_fellow/#{cohort.id}')
+                        i.fa.fa-plus.nav_icon
+                        | Add Fellow
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_fellows/#{cohort.id}')
+                        i.fa.fa-eye.nav_icon
+                        | View Fellows
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_bold_questions/#{cohort.id}')
+                        i.fa.fa-question.nav_icon
+                        | View Bold Questions
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_kpis/#{cohort.id}')
+                        i.fa.fa-list.nav_icon
+                        | View KPI's
+                    
+
+              
+                li
+                  a.hvr-bounce-to-right(href='#')
+                    i.fa.fa-folder-open-o.nav_icon
+                    span.nav-label Modules
+                    span.fa.arrow
+                  ul.nav.nav-second-level
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/add_module/#{cohort.id}')
+                        i.fa.fa-plus.nav_icon
+                        | Add Module
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_modules/#{cohort.id}')
+                        i.fa.fa-eye.nav_icon
+                        | View Modules
+                li
+                  a.hvr-bounce-to-right(href='/administrator/reading_list/#{cohort.id}')
+                    i.fa.fa-book.nav_icon
+                    span.nav-label  Reading List
+                li
+                  a.hvr-bounce-to-right(href='/administrator/home')
+                    i.fa.fa-arrow-left.nav_icon
+                    span.nav-label  Back home
+              
+                li
+                 
+                
+                  
+                      a.hvr-bounce-to-right(href='/administrator/log_out')
+                        i.fa.fa-sign-out.nav_icon
+                        | Signout
+      #page-wrapper.gray-bg.dashbard-1
+        .content-main
+          // banner
+        
+       
+          div(style='margin: 1em 1em ;')
+           != messages('message', locals)
+           if course.start_date === '' || course.end_date === '' || course.duration === '' || course.year === 0
+            .alert.alert-danger(role='alert') Kindly update module details: start date, end date, duration, year
+          .banner
+            h2
+              a(href='#') Home
+              i.fa.fa-angle-right
+              span #{cohort.title}
+              i.fa.fa-angle-right
+              a(href="/administrator/view_modules/#{cohort.id}") View Modules
+              i.fa.fa-angle-right
+              a(href="/administrator/view_module/#{cohort.id}/#{course.module_id}")  #{course.module_title}
+              i.fa.fa-angle-right
+              span #{course.title}
+          
+            
+          
+          
+          .profile
+          
+             .profile-bottom
+              h3
+                a(href="/administrator/view_module/#{cohort.id}/#{course.module_id}")
+                 i.fa.fa-angle-left(style='font-weight:bold')
+                | #{course.title}
+              .profile-bottom-top
+                .col-md-4
+                  img(src=course.profile_image width='100%' alt='')
+                .col-md-8.profile-text
+                 
+                  table(style='margin-top:10px')
+                    tbody
+                      tr
+                        td Cohort
+                        td :
+                        td #{cohort.title}
+                      tr
+                        td Start Date
+                        td  :
+                        td #{course.start_date}
+                      tr
+                        td End Date
+                        td  :
+                        td #{course.end_date}
+                      tr
+                        td Duration
+                        td :
+                        td #{course.duration} day(s)
+                      tr
+                        td Year
+                        td :
+                        td #{course.year}
+                      tr 
+                        td Locked
+                        td :
+                        td 
+                          if course.enabled===true
+                                
+                                  | Unlocked
+                                  &nbsp;
+                                  i.fa.fa-unlock-alt
+                          if course.enabled===false
+                                
+                                  | Locked
+                                  &nbsp;
+                                  i.fa.fa-lock
+                      tr
+                        td Status
+                        td :
+                        td 
+                          if course.status === ''
+                              | Null
+                          if course.status === 'Ongoing'
+                              | #{course.status}
+                          if course.status === 'Ended'
+                              | #{course.status}
+                      tr
+                        td Description
+                        td :
+                        td 
+                         if course.description === ''
+                          | Null
+                         if course.description !== ''
+                          | #{course.description}
+                .clearfix
+              if user.type === 'super admin' || user.type==='content manager'
+               .profile-bottom-bottom
+                .col-md-4.profile-fo
+                  h4 #{weeks.length}
+                  p Weeks
+                  a.pro( href='#' data-toggle='modal' data-target='#addweek')
+                    i.fa.fa-plus
+                    | Add week
+                  
+                .col-md-4.profile-fo
+                  h4 #{topics.length}
+                  p Topics
+                  if weeks.length < 1
+                   a.pro1(disabled href='#' )
+                    i.fa.fa-plus
+                    | Add topics
+                  if weeks.length > 0
+                   a.pro1( href='#' data-toggle='modal' data-target='#addtopic')
+                    i.fa.fa-plus
+                    | Add topics
+                .col-md-4.profile-fo
+                  h4 #{tasks.length}
+                  p Tasks
+                  a( href='#' data-toggle='modal' data-target='#addtask')
+                    i.fa.fa-plus
+                    | Add task
+                .clearfix
+              h3 Topics
+              
+              if weeks.length < 1
+               div(style='margin-bottom:20px;text-align:center')
+                p No weeks found.
+              if weeks.length > 0
+               
+               div(style='margin-bottom:20px')
+                each week in weeks
+                  button.collapsible(type='button') #{week.title} 
+                   &nbsp;
+                   span.badge #{week.start_date} > #{week.end_date}
+                   if user.type === 'super admin' || user.type==='content manager'
+                    a(href="/administrator/delete_week/#{cohort.id}/#{course.id}/#{week.id}",style='float:right;')
+                     i.fa.fa-trash(style='color:red;margin-left:5px')
+                    a(href="/administrator/edit_week/#{cohort.id}/#{course.id}/#{week.id}",style='float:right;')
+                     i.fa.fa-edit(style='color:blue')
+                   
+                  .content
+                  
+                   ul.list-group
+                    if topics.length < 1
+                     li.list-group-item(style='text-align:center')  No topics found.
+                    if topics.length > 0
+                     each topic in topics
+                      
+                      if topic.week_id === week.id
+                       li.list-group-item 
+                        a(href="/administrator/view_topic/#{cohort.id}/#{course.id}/#{week.id}/#{topic.id}") #{topic.no}.  #{topic.title} 
+                         &nbsp;
+                         span.badge #{topic.type}
+
+              
+              h3 Tasks
+              if tasks.length < 1
+               div(style='margin-bottom:20px;text-align:center')
+                p No tasks found.
+              if tasks.length > 0
+               div(style='margin:20px')
+                ul.list-group
+                 each task in tasks
+                  li.list-group-item
+                    span #{task.no}. #{task.title}
+                     a(href="/administrator/delete_task/#{cohort.id}/#{course.id}/#{task.id}" style='float:right')
+                      i.fa.fa-trash(style='color:red')
+              
+              
+              
+              if user.type === 'super admin' || user.type==='content manager'
+               .profile-btn
+                if course.enabled === true
+                          a(href="/administrator/unlock_course/#{cohort.id}/#{course.id}").btn.btn-success.loginbtn 
+                            | Lock
+                            &nbsp;
+                            i.fa.fa-lock
+                          &nbsp;
+                         
+                        
+                if course.enabled === false
+                          a(href="/administrator/lock_course/#{cohort.id}/#{course.id}").btn.btn-success.loginbtn 
+                            | Unlock
+                            &nbsp;
+                            i.fa.fa-unlock-alt
+                          &nbsp;
+                       
+                button.btn( href='#' style='margin-left:5px'  data-toggle='modal' data-target='#editmodule') Edit
+                &nbsp;&nbsp;
+                a.btn.btn-danger.bg-red( href='/administrator/delete_module/#{cohort.id}/#{course.id}') Delete
+                .clearfix
+        
+           
+            
+             
+          // //gallery
+          // 
+          .copy
+            p
+              | © #{year}. All Rights Reserved | Design by 
+              a(href='https://onclickconsultants.com/' target='_blank') Onclick Consultants Ltd
+          // Modals
+          #addsubmodule.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                 .modal-dialog
+                  .modal-content
+                    .modal-header
+                      h5#staticBackdropLabel.modal-title Add new sub module
+                       button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') ×
+                    .modal-body
+                      form.form(action="/administrator/add_new_sub_module/#{cohort.id}/#{course.id}",method='POST',enctype='multipart/form-data')
+                        .form-group
+                          label(for='title') Module title
+                          input.form-control(type='text' name='title' placeholder='Module title' required)
+                        .form-group
+                          label(for='name') Module Start Date
+                          input.form-control(type='date',name='start_date',placeholder='Module start date',required)
+                        .form-group
+                          label(for='name') Module End Date
+                          input.form-control(type='date',name='end_date',placeholder='Module end date',required)
+                        .form-group
+                          label(for='name') Module Duration
+                          input.form-control(type='text',name='duration',placeholder='Module duration (in days)',required)
+                        .form-group
+                          label(for='name') Module Year
+                          input.form-control(type='number',name='year',placeholder='Module year',required)
+                        .form-group
+                          label(for='name') Description
+                          br
+                          textarea.form-control(name="description", cols="30", rows="12")
+                        .form-group
+                          label Upload Module Image
+                          input.form-control(type='file', name='file',accept='.png , .jpeg, .jpg',required)
+                        .form-group
+                         button.btn.btn-primary Save
+                      
+                    .modal-footer
+                      button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          #addweek.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title Add new week
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                          form.form(action="/administrator/add_new_week/#{cohort.id}/#{course.id}",method='POST')
+                            .form-group
+                              label(for='title') Title
+                              input.form-control(type='text' name='title' placeholder='Week title' required)
+                            .form-group
+                              label(for='start_date') Start Date
+                              input.form-control(type='date',name='start_date',placeholder='Start date',required)
+                            .form-group
+                              label(for='end_date') End Date
+                              input.form-control(type='date',name='end_date',placeholder='End date',required)
+                            .form-group
+                             button.btn.btn-primary Save
+                          
+                        .modal-footer
+                          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          #addtopic.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title Add new topic
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                          form.form(action="/administrator/add_new_topic/#{cohort.id}/#{course.id}",method='POST')
+                            .form-group
+                              label(for='title') Title
+                              input.form-control(type='text' name='title' placeholder='Topic title' required)
+                            .form-group
+                       
+                              select.form-control(name='week',required)
+                                option(value='') Choose a week
+                                each week in weeks
+                                 option(value=week.title) #{week.title}
+                            .form-group
+                       
+                              select.form-control(name='type',required)
+                                option(value='') Choose type
+                                option(value='Read') Read
+                                option(value='Watch') Watch
+                                option(value='Do') Do
+                                    
+                            .form-group
+                             button.btn.btn-primary Save
+                          
+                        .modal-footer
+                          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          #addtask.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title Add new task
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                          form.form(action="/administrator/add_new_task/#{cohort.id}/#{course.id}",method='POST')
+                            .form-group
+                              label(for='title') Title
+                              input.form-control(type='text' name='title' placeholder='Task title' required)
+                            .form-group
+                       
+                              select.form-control(name='type',required)
+                                option(value='') Choose type
+                                option(value='Read') Read
+                                option(value='Watch') Watch
+                                option(value='Do') Do
+                           
+                                
+                            .form-group
+                             button.btn.btn-primary Save
+                          
+                        .modal-footer
+                          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          #editmodule.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title Edit module
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                          h4 Module Details
+                          hr
+                          form.form(action="/administrator/edit_course/#{cohort.id}/#{course.id}",method='POST')
+                            .form-group
+                              label(for='title') Course Title
+                              input.form-control(type='text' name='title' placeholder='Course title' value=course.title required)
+                            .form-group
+                              label(for='title') Course Start Date
+                              input.form-control(type='date' name='start_date' placeholder='Course start date' value=course.start_date required)
+                            .form-group
+                              label(for='title') Course End Date
+                              input.form-control(type='date' name='end_date' placeholder='Course end date' value=course.end_date required)
+                            .form-group
+                              label(for='title') Course Duration (in days)
+                              input.form-control(type='text' name='duration' placeholder='Course duration' value=course.duration required)
+                            .form-group
+                              label(for='title') Course Year
+                              input.form-control(type='number' name='year' placeholder='Course year' value=course.year required)
+                            .form-group
+                              label(for='name') Description
+                              br
+                              textarea.form-control(name="description", cols="30", rows="12") #{course.description}
+                                      
+
+                            .form-group
+                             button.btn.btn-primary Save
+                          hr
+                          h4 Profile Image
+                          hr
+                          form.form(action="/administrator/update_image/#{cohort.id}/#{course.id}",method='POST',enctype='multipart/form-data')
+                            .form-group
+                              label Upload Module Banner Image
+                              input.form-control(type='file', name='file',accept='.png , .jpeg, .jpg',required)
+                            .form-group
+                             button.btn.btn-primary Save
+                                
+                          
+                        .modal-footer
+                          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+      .clearfix  
+    // 
+   
+    script(src='/administrator/js/jquery.swipebox.min.js')
+    script(type='text/javascript').
+      jQuery(function($) {
+      $(".swipebox").swipebox();
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+      })
+         $('#myTab a').on('click', function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+        })
+      });
+    // scrolling js
+
+    script(src='/administrator/js/jquery.nicescroll.js')
+    script(src='/administrator/js/scripts.js')
+    script.
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+        content.style.display = "none";
+        } else {
+        content.style.display = "block";
+        }
+        });
+        }
+   
+    script.
+                        var due_date = document.getElementById('due_date').value
+                        var deadline = new Date(due_date).getTime(); 
+                        var x = setInterval(function() { 
+                        var now = new Date().getTime(); 
+                        var t = deadline - now; 
+                        var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
+                        var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+                        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+                        var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+                        document.getElementById("demo").innerHTML = days + " day(s) "  
+                        
+                            if (t < 0) { 
+                                clearInterval(x); 
+                                document.getElementById("demo").innerHTML = "EXPIRED"; 
+                            } 
+                        }, 1000); 

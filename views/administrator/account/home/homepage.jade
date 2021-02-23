@@ -1,0 +1,177 @@
+doctype html
+
+html
+  head
+    title Home | Teach For Kenya LMS
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+    meta(name='keywords' content='')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    link(href='/administrator/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(href='/administrator/css/style.css' rel='stylesheet' type='text/css')
+    link(href='/administrator/css/font-awesome.css' rel='stylesheet')
+    script(src='/administrator/js/jquery.min.js')
+    script(src='/administrator/js/bootstrap.min.js')
+    // Mainly scripts
+    script(src='/administrator/js/jquery.metisMenu.js')
+    script(src='/administrator/js/jquery.slimscroll.min.js')
+    // Custom and plugin javascript
+    link(href='/administrator/css/custom.css' rel='stylesheet')
+    script(src='/administrator/js/custom.js')
+    script(src='/administrator/js/screenfull.js')
+    script.
+      $(function () {
+      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+      if (!screenfull.enabled) {
+      return false;
+      }
+      $('#toggle').click(function () {
+      screenfull.toggle($('#container')[0]);
+      });
+      });
+  body
+    #wrapper
+      // -
+      nav.navbar-default.navbar-static-top(role='navigation')
+        .navbar-header
+          button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          h1
+            a.navbar-brand(href='/administrator/home') 
+             img(src="/icon.jpg",width='80px', alt="")
+        .border-bottom
+          .full-left
+           
+         
+          .drop-men
+            ul.nav_1
+              
+              li.dropdown
+                a.dropdown-toggle.dropdown-at(href='#' data-toggle='dropdown')
+                  span.name-caret
+                    | #{user.username}
+                    
+                  img(src='/user.png',width='60px')
+              
+          // /.navbar-collapse
+          .clearfix
+          .navbar-default.sidebar(role='navigation')
+            .sidebar-nav.navbar-collapse
+              ul#side-menu.nav
+                li
+                  a.hvr-bounce-to-right(href='/administrator/home')
+                    i.fa.fa-home.nav_icon
+                    span.nav-label Home
+                li
+                  a.hvr-bounce-to-right(href='/administrator/tags')
+                    i.fa.fa-tag.nav_icon
+                    span.nav-label Tags
+              
+                li
+                  a.hvr-bounce-to-right(href='/administrator/users')
+                    i.fa.fa-users.nav_icon
+                    span.nav-label  Administrators
+              
+                li
+                 
+                
+                  
+                      a.hvr-bounce-to-right(href='/administrator/log_out')
+                        i.fa.fa-sign-out.nav_icon
+                        | Signout
+      #page-wrapper.gray-bg.dashbard-1
+        .content-main
+          // banner
+          div(style='margin: 1em 1em ;')
+           != messages('message', locals)
+          .banner
+            h2
+              a(href='#') Home
+              i.fa.fa-angle-right
+              span Cohorts
+          if user.type === 'super admin'
+           div(style='margin: 1em 1em ;')
+            button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addnewcohort')
+              i.fa.fa-plus
+              &nbsp;
+             
+              | Add new cohort
+            // Modal
+            #addnewcohort.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#staticBackdropLabel.modal-title Add new cohort
+                     button.close(type='button' data-dismiss='modal' aria-label='Close')
+                      span(aria-hidden='true') ×
+                  .modal-body
+                    form.form(action="/administrator/add_new_cohort",method='POST')
+                      .form-group
+                       label(for='title') Title
+                       input.form-control(type='text' name='title' placeholder='Cohort title' required)
+                      .form-group
+                       button.btn.btn-primary Save
+                    
+                  .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                    
+
+
+          .gallery
+            if cohorts.length < 1
+              .col-md
+                .text-gallery
+                  h6 No cohorts found.
+                  
+               
+            if cohorts.length > 0
+             each cohort in cohorts
+              a(href="/administrator/cohort/#{cohort.id}")
+               .col-md(style='border-top: 3px solid rgb(255, 84, 13);')
+               
+                .text-gallery
+                  h6 #{cohort.title}
+                   if user.type === 'super admin'
+                    a(href="/administrator/delete_cohort/#{cohort.id}",style='float:right' )
+                     i.fa.fa-trash(style='color:red;font-size:0.8em')
+                   
+                  br
+                  span(style='font-size:0.8em') Number of fellows: #{cohort.fellows}
+                  
+                  br
+                  a(href="/administrator/edit_cohort_page/#{cohort.id}",style='font-size:0.7em')
+                    i.fa.fa-edit
+                    |  Edit
+             
+            
+            .clearfix  
+          // //gallery
+          // 
+          .copy
+            p
+              | © #{year}. All Rights Reserved | Design by 
+              a(href='https://onclickconsultants.com/' target='_blank') Onclick Consultants Ltd
+      .clearfix  
+    // 
+    link(rel='stylesheet' href='/administrator/css/swipebox.css')
+    script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js' integrity='sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN' crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' integrity='sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV' crossorigin='anonymous')
+
+    script(src='/administrator/js/jquery.swipebox.min.js')
+    script(type='text/javascript').
+      jQuery(function($) {
+      $(".swipebox").swipebox();
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+      })
+      });
+    // scrolling js
+    script(src='/administrator/js/jquery.nicescroll.js')
+    script(src='/administrator/js/scripts.js')
+    // //scrolling js

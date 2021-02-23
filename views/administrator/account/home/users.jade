@@ -1,0 +1,202 @@
+doctype html
+
+html
+  head
+    title Administrators | Teach For Kenya LMS
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+    meta(name='keywords' content='')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    link(href='/administrator/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(href='/administrator/css/style.css' rel='stylesheet' type='text/css')
+    link(href='/administrator/css/font-awesome.css' rel='stylesheet')
+    script(src='/administrator/js/jquery.min.js')
+    script(src='/administrator/js/bootstrap.min.js')
+    // Mainly scripts
+    script(src='/administrator/js/jquery.metisMenu.js')
+    script(src='/administrator/js/jquery.slimscroll.min.js')
+    // Custom and plugin javascript
+    link(href='/administrator/css/custom.css' rel='stylesheet')
+    script(src='/administrator/js/custom.js')
+    script(src='/administrator/js/screenfull.js')
+    script.
+      $(function () {
+      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+      if (!screenfull.enabled) {
+      return false;
+      }
+      $('#toggle').click(function () {
+      screenfull.toggle($('#container')[0]);
+      });
+      });
+    style.
+     .table td, .table>tbody>tr>td
+     {
+         color:black
+     }
+     .table thead tr th {
+        padding: 15px !important;
+        font-size: 0.85em;
+        color: black;
+        font-weight:bolder;
+        border-top: none !important;
+     }
+  body
+    #wrapper
+      // -
+      nav.navbar-default.navbar-static-top(role='navigation')
+        .navbar-header
+          button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          h1
+            a.navbar-brand(href='/administrator/home') 
+             img(src="/icon.jpg",width='80px', alt="")
+        .border-bottom
+          .full-left
+           
+         
+          .drop-men
+            ul.nav_1
+              
+              li.dropdown
+                a.dropdown-toggle.dropdown-at(href='#' data-toggle='dropdown')
+                  span.name-caret
+                    | #{user.username}
+                    
+                  img(src='/user.png',width='60px')
+              
+          // /.navbar-collapse
+          .clearfix
+          .navbar-default.sidebar(role='navigation')
+            .sidebar-nav.navbar-collapse
+              ul#side-menu.nav
+                li
+                  a.hvr-bounce-to-right(href='/administrator/home')
+                    i.fa.fa-home.nav_icon
+                    span.nav-label Home
+                li
+                  a.hvr-bounce-to-right(href='/administrator/tags')
+                    i.fa.fa-tag.nav_icon
+                    span.nav-label Tags
+              
+                li
+                  a.hvr-bounce-to-right(href='/administrator/users')
+                    i.fa.fa-users.nav_icon
+                    span.nav-label  Administrators
+              
+                li
+                 
+                
+                  
+                      a.hvr-bounce-to-right(href='/administrator/log_out')
+                        i.fa.fa-sign-out.nav_icon
+                        | Signout
+      #page-wrapper.gray-bg.dashbard-1
+        .content-main
+          // banner
+          div(style='margin: 1em 1em ;')
+           != messages('message', locals)
+          .banner
+            h2
+              a(href='#') Home
+              i.fa.fa-angle-right
+              span Administrators
+          if user.type === 'super admin'
+           div(style='margin: 1em 1em ;')
+            button.btn.btn-primary(type='button' data-toggle='modal' data-target='#addnewuser')
+              i.fa.fa-plus
+              &nbsp;
+             
+              | Add new administrator
+            // Modal
+            #addnewuser.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5#staticBackdropLabel.modal-title Add new administrator
+                     button.close(type='button' data-dismiss='modal' aria-label='Close')
+                      span(aria-hidden='true') ×
+                  .modal-body
+                    form.form(action="/administrator/add_new_user",method='POST')
+                      .form-group
+                       label(for='firstname') Firstname
+                       input.form-control(type='text' name='first_name' placeholder='First name' required)
+                      .form-group
+                       label(for='lastname') Lastname
+                       input.form-control(type='text' name='last_name' placeholder='Last name' required)
+                      .form-group
+                       label(for='email') Email
+                       input.form-control(type='email' name='username' placeholder='Email' required)
+                      .form-group
+                       label(for='type') Type
+                       select.form-control(name='type',required)
+                        option(value='') Choose admin type
+                        option(value='data manager') Data manager
+                        option(value='content manager') Content manager
+                        option(value='super admin') Super admin
+                      .form-group
+                       label(for='password') Password
+                       input.form-control(type='password' name='password' placeholder='Password' required)
+                      .form-group
+                       label(for='password') Confirm Password
+                       input.form-control(type='password' name='password2' placeholder='Confirm Password' required)
+                      .form-group
+                       button.btn.btn-primary Save
+                    
+                  .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          // //banner
+          // gallery
+          .gallery
+            .col-md-12
+             table.table.table-hover.table-bordered
+                thead
+                  tr
+                    
+                    th(scope='col') Firstname
+                    th(scope='col') Lastname
+                    th(scope='col') Email
+                    th(scope='col') Type
+                    if user.type === 'super admin'
+                     th(scope='col') Action
+                tbody
+                 each admin in admins
+                  tr
+                    td #{admin.first_name}
+                    td #{admin.last_name}
+                    td #{admin.username}
+                    td #{admin.type}
+                    if user.type === 'super admin'
+                     td
+                      a(href="/administrator/edit_user_page/#{admin.id}")
+                       i.fa.fa-edit(style='color:blue')
+                      &nbsp;&nbsp;
+                      a(href="/administrator/delete_user/#{admin.id}")
+                       i.fa.fa-trash(style='color:red')
+                
+
+            
+            .clearfix  
+          // //gallery
+          // 
+          .copy
+            p
+              | © #{year}. All Rights Reserved | Design by 
+              a(href='https://onclickconsultants.com/' target='_blank') Onclick Consultants Ltd
+      .clearfix  
+    // 
+    link(rel='stylesheet' href='/administrator/css/swipebox.css')
+    script(src='/administrator/js/jquery.swipebox.min.js')
+    script(type='text/javascript').
+      jQuery(function($) {
+      $(".swipebox").swipebox();
+      });
+    // scrolling js
+    script(src='/administrator/js/jquery.nicescroll.js')
+    script(src='/administrator/js/scripts.js')
+    // //scrolling js

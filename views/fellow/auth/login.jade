@@ -1,0 +1,75 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Login | Teach For Kenya LMS
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='description' content='')
+    meta(name='keywords' content='')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(rel='stylesheet' type='text/css' href='learner/css/animate.css')
+    link(rel='stylesheet' type='text/css' href='learner/css/bootstrap.min.css')
+    link(rel='stylesheet' type='text/css' href='learner/css/line-awesome.css')
+    link(rel='stylesheet' type='text/css' href='learner/css/line-awesome-font-awesome.min.css')
+    link(rel='stylesheet' type='text/css' href='learner/css/font-awesome.min.css')
+    link(rel='stylesheet' type='text/css' href='learner/lib/slick/slick.css')
+    link(rel='stylesheet' type='text/css' href='learner/lib/slick/slick-theme.css')
+    link(rel='stylesheet' type='text/css' href='learner/css/style.css')
+    link(rel='stylesheet' type='text/css' href='learner/css/responsive.css')
+    style.
+     .alert-error
+      {
+          color: #a94442;
+          background-color: #f2dede;
+          border-color: #ebccd1;
+      }
+  body.sign-in
+    .wrapper
+      .sign-in-page
+        .signin-popup
+          .signin-pop
+            .row
+              .col-lg-6(style='text-align:center')
+               
+                .cmp-info
+                  .cm-logo.mb-10
+                    img(src='/logo.jpg' width='100px' alt='')
+                   
+              .col-lg-6
+                .login-sec
+                  
+                  #tab-1.sign_in_sec.current
+                    h3 Fellow Sign in
+                    != messages('message', locals)
+                    form(action='/login_post',method='POST')
+                      .row
+                        .col-lg-12.no-pdd
+                          .sn-field
+                            input(type='email' name='username' placeholder='Email' required)
+                            i.la.la-user
+                          // sn-field end
+                        .col-lg-12.no-pdd
+                          .sn-field
+                            input(type='password' name='password' placeholder='Password' required)
+                            i.la.la-lock
+                        .col-lg-12.no-pdd
+                          .checky-sec
+                            .fgt-sec
+                              input#c1(type='checkbox' name='cc')
+                              label(for='c1')
+                                span
+                              small Remember me
+                            // fgt-sec end
+                            a(href='/forgot_password' title='') Forgot Password?
+                        .col-lg-12.no-pdd
+                          button( value='submit' style='background-color:gray') Sign in
+                   
+                        .col-lg-12.no-pdd(style='margin-top:20px')
+                          span(style='font-size:0.9em') Powered By Onclick Consultants Ltd
+                      
+                     
+                      script(type='text/javascript' src='learner/js/jquery.min.js')
+                      script(type='text/javascript' src='learner/js/popper.js')
+                      script(type='text/javascript' src='learner/js/bootstrap.min.js')
+                      script(type='text/javascript' src='learner/lib/slick/slick.min.js')
+                      script(type='text/javascript' src='learner/js/script.js')

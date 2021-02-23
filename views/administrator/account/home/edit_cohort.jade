@@ -1,0 +1,143 @@
+doctype html
+
+html
+  head
+    title Edit Cohort | Teach For Kenya LMS
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+    meta(name='keywords' content='')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    link(href='/administrator/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(href='/administrator/css/style.css' rel='stylesheet' type='text/css')
+    link(href='/administrator/css/font-awesome.css' rel='stylesheet')
+    script(src='/administrator/js/jquery.min.js')
+    script(src='/administrator/js/bootstrap.min.js')
+    // Mainly scripts
+    script(src='/administrator/js/jquery.metisMenu.js')
+    script(src='/administrator/js/jquery.slimscroll.min.js')
+    // Custom and plugin javascript
+    link(href='/administrator/css/custom.css' rel='stylesheet')
+    script(src='/administrator/js/custom.js')
+    script(src='/administrator/js/screenfull.js')
+    script.
+      $(function () {
+      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+      if (!screenfull.enabled) {
+      return false;
+      }
+      $('#toggle').click(function () {
+      screenfull.toggle($('#container')[0]);
+      });
+      });
+  body
+    #wrapper
+      // -
+      nav.navbar-default.navbar-static-top(role='navigation')
+        .navbar-header
+          button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          h1
+            a.navbar-brand(href='/administrator/home') 
+             img(src="/icon.jpg",width='80px', alt="")
+        .border-bottom
+          .full-left
+           
+         
+          .drop-men
+            ul.nav_1
+              
+              li.dropdown
+                a.dropdown-toggle.dropdown-at(href='#' data-toggle='dropdown')
+                  span.name-caret
+                    | #{user.username}
+                    
+                  img(src='/user.png',width='60px')
+              
+          // /.navbar-collapse
+          .clearfix
+          .navbar-default.sidebar(role='navigation')
+            .sidebar-nav.navbar-collapse
+              ul#side-menu.nav
+                li
+                  a.hvr-bounce-to-right(href='/administrator/home')
+                    i.fa.fa-home.nav_icon
+                    span.nav-label Home
+                li
+                  a.hvr-bounce-to-right(href='/administrator/tags')
+                    i.fa.fa-tag.nav_icon
+                    span.nav-label Tags
+              
+                li
+                  a.hvr-bounce-to-right(href='/administrator/users')
+                    i.fa.fa-users.nav_icon
+                    span.nav-label  Administrators
+              
+                li
+                 
+                
+                  
+                      a.hvr-bounce-to-right(href='/administrator/log_out')
+                        i.fa.fa-sign-out.nav_icon
+                        | Signout
+      #page-wrapper.gray-bg.dashbard-1
+        .content-main
+          // banner
+          div(style='margin: 1em 1em ;')
+           != messages('message', locals)
+          .banner
+            h2
+              a(href='/administrator/home') Home
+              i.fa.fa-angle-right
+              span #{cohort.title}
+              i.fa.fa-angle-right
+              span Edit Cohort
+        
+                    
+
+          .gallery
+           .col-md-4
+           .col-md-4
+            
+              
+                form.form(action="/administrator/edit_cohort_post/#{cohort.id}",method='POST')
+                      .form-group
+                       label(for='title') Title
+                       input.form-control(type='text' name='title' placeholder='Cohort title' value=cohort.title required)
+                      .form-group
+                       button.btn.btn-primary Update
+           .col-md-4
+          
+            
+             
+            
+            .clearfix  
+          // //gallery
+          // 
+          .copy
+            p
+              | © #{year}. All Rights Reserved | Design by 
+              a(href='https://onclickconsultants.com/' target='_blank') Onclick Consultants Ltd
+      .clearfix  
+    // 
+    link(rel='stylesheet' href='/administrator/css/swipebox.css')
+    script(src='https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js' integrity='sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN' crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' integrity='sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV' crossorigin='anonymous')
+
+    script(src='/administrator/js/jquery.swipebox.min.js')
+    script(type='text/javascript').
+      jQuery(function($) {
+      $(".swipebox").swipebox();
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+      })
+      });
+    // scrolling js
+    script(src='/administrator/js/jquery.nicescroll.js')
+    script(src='/administrator/js/scripts.js')
+    // //scrolling js

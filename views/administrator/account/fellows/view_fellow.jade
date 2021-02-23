@@ -1,0 +1,432 @@
+doctype html
+
+html
+  head
+    title #{cohort.title} | #{fellow.first_name} #{fellow.last_name} - View Fellow | Teach For Kenya LMS
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+    meta(name='keywords' content='')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    link(href='/administrator/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(rel="stylesheet", href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css")
+   
+    link(href='/administrator/css/style.css' rel='stylesheet' type='text/css')
+    link(href='/administrator/css/font-awesome.css' rel='stylesheet')
+    script(src='/administrator/js/jquery.min.js')
+    script(src='/administrator/js/bootstrap.min.js')
+    script(src='/administrator/js/jquery.metisMenu.js')
+    script(src='/administrator/js/jquery.slimscroll.min.js')
+    // Custom and plugin javascript
+    link(rel='stylesheet' href='/administrator/css/swipebox.css')
+   
+    link(href='/administrator/css/custom.css' rel='stylesheet')
+    script(src='/administrator/js/custom.js')
+    script(src='/administrator/js/screenfull.js')
+    script.
+      $(function () {
+      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+      if (!screenfull.enabled) {
+      return false;
+      }
+      $('#toggle').click(function () {
+      screenfull.toggle($('#container')[0]);
+      });
+      });
+    style.
+     .table thead tr th {
+        padding: 15px !important;
+        font-size: 0.85em;
+        color: black;
+        font-weight:bolder;
+        border-top: none !important;
+     }
+     .table tbody tr td {
+        padding: 15px !important;
+        font-size: 0.85em;
+        color: black;
+        font-weight:bolder;
+        border-top: none !important;
+     }
+     .nav  li  a {
+            color: black;
+            font-weight: 500;
+            padding: 0px 20px 0px 0px;
+            font-size: 0.85em;
+            border-bottom: 1px solid #E9E9E9;
+     }
+     .nav-item
+     {
+         border-right:1px solid gray
+     }
+    
+   
+  body
+    #wrapper
+      // -
+      nav.navbar-default.navbar-static-top(role='navigation')
+        .navbar-header
+          button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          h1
+            a.navbar-brand(href='/administrator/cohort/#{cohort.id}') 
+             img(src="/icon.jpg",width='80px', alt="")
+        .border-bottom
+          .full-left
+           
+         
+          .drop-men
+            ul.nav_1
+              
+              li.dropdown
+                a.dropdown-toggle.dropdown-at(href='#' data-toggle='dropdown')
+                  span.name-caret
+                    | #{user.username}
+                    
+                  img(src='/user.png',width='60px')
+              
+          // /.navbar-collapse
+          .clearfix
+          .navbar-default.sidebar(role='navigation')
+            .sidebar-nav.navbar-collapse
+              ul#side-menu.nav
+                li
+                  a.hvr-bounce-to-right(href='/administrator/cohort/#{cohort.id}')
+                    i.fa.fa-dashboard.nav_icon
+                    span.nav-label Dashboard
+                li
+                  a.hvr-bounce-to-right(href='#')
+                    i.fa.fa-users.nav_icon
+                    span.nav-label Fellows
+                    span.fa.arrow
+                  ul.nav.nav-second-level
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/add_fellow/#{cohort.id}')
+                        i.fa.fa-plus.nav_icon
+                        | Add Fellow
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_fellows/#{cohort.id}')
+                        i.fa.fa-eye.nav_icon
+                        | View Fellows
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_bold_questions/#{cohort.id}')
+                        i.fa.fa-question.nav_icon
+                        | View Bold Questions
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_kpis/#{cohort.id}')
+                        i.fa.fa-list.nav_icon
+                        | View KPI's
+                    
+
+              
+                li
+                  a.hvr-bounce-to-right(href='#')
+                    i.fa.fa-folder-open-o.nav_icon
+                    span.nav-label Modules
+                    span.fa.arrow
+                  ul.nav.nav-second-level
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/add_module/#{cohort.id}')
+                        i.fa.fa-plus.nav_icon
+                        | Add Module
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_modules/#{cohort.id}')
+                        i.fa.fa-eye.nav_icon
+                        | View Modules
+                li
+                  a.hvr-bounce-to-right(href='/administrator/reading_list/#{cohort.id}')
+                    i.fa.fa-book.nav_icon
+                    span.nav-label  Reading List
+                li
+                  a.hvr-bounce-to-right(href='/administrator/home')
+                    i.fa.fa-arrow-left.nav_icon
+                    span.nav-label  Back home
+              
+                li
+                 
+                
+                  
+                      a.hvr-bounce-to-right(href='/administrator/log_out')
+                        i.fa.fa-sign-out.nav_icon
+                        | Signout
+      #page-wrapper.gray-bg.dashbard-1
+        .content-main
+          // banner
+          div(style='margin: 1em 1em ;')
+           != messages('message', locals)
+          .banner
+            h2
+              a(href='#') Home
+              i.fa.fa-angle-right
+              span #{cohort.title}
+            
+              i.fa.fa-angle-right
+              a(href="/administrator/view_fellows/#{cohort.id}") View Fellows
+              i.fa.fa-angle-right
+              span #{fellow.first_name} #{fellow.last_name}
+
+          
+        
+          .profile
+              
+            .profile-bottom
+              h3
+                a(href="/administrator/view_fellows/#{cohort.id}")
+                 i.fa.fa-angle-left(style='font-weight:bold')
+                | #{fellow.first_name} #{fellow.last_name}
+             
+              .profile-bottom-top
+                .col-md-4.profile-bottom-img
+                  img(src=fellow.profile_image  width='100%' alt='')
+                .col-md-8.profile-text
+                 
+                  table(style='margin-top:10px')
+                    tbody
+                      tr
+                        td Fullname
+                        td :
+                        td #{fellow.first_name} #{fellow.last_name}
+                      tr
+                        td Email
+                        td :
+                        td #{fellow.username} 
+                      tr
+                        td Phone Number
+                        td :
+                        td #{fellow.phone_no} 
+                      tr
+                        td Country
+                        td :
+                        td #{fellow.country} 
+                      tr
+                        td City
+                        td :
+                        td #{fellow.city} 
+                      tr
+                        td Date of Birth
+                        td :
+                        td #{fellow.dob} 
+                  
+                     
+                .clearfix
+              .profile-bottom-bottom
+                .col-md-4.profile-fo
+                
+                  a.pro(href='#'  data-toggle='modal' data-target='#kpis')
+                  
+                    | My KPI's
+                .col-md-4.profile-fo
+                 
+                  a.pro1(href='#'  data-toggle='modal' data-target='#boldquestion')
+                   
+                    | My Bold Question
+                .col-md-4.profile-fo
+                 
+                  a( href='#' data-toggle='modal' data-target='#road')
+                    i.fa.fa-road
+                    | My Journey
+               
+                .clearfix
+              .profile-btn
+                h3 Questions & Answers
+               
+                table.table.table-hover.table-bordered#example
+                    thead
+                        tr
+                        
+                            th(scope='col') Topic
+                            th(scope='col') Module
+                            th(scope='col') Actions
+                    tbody
+                        each topic in topics
+                         tr
+                          td=topic.title
+                          td=topic.course.title
+                          td
+                           a(href="/administrator/view_answer/#{cohort.id}/#{fellow.id}/#{topic.id}") view answers
+              .profile-btn
+              
+                
+                a.btn.btn-danger(type='button' style='float:right' href='/administrator/delete_fellow/#{cohort.id}/#{fellow.id}') Delete
+                &nbsp;&nbsp;
+                button.btn.btn-success(type='button' href='#' style='margin-left:5px' data-toggle='modal' data-target='#editmodule') Edit
+                
+                .clearfix
+          
+          .gallery  
+          #boldquestion.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title My Bold Question
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                            if fellow.bold_question ===''
+                              span(style='color:red') No bold question found.
+                            if fellow.bold_question !==''
+                              p #{fellow.bold_question}
+                                
+                          
+                        .modal-footer
+                          button.btn.btn-secondary(type='button' data-dismiss='modal') Close    
+          #kpis.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog.modal-lg
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title My KPI's
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                            if kpis.length < 1
+                              span(style='color:red') No kpis found.
+                            if kpis.length > 0
+                              div
+                               table.table.table-hover.table-bordered#example
+                                  thead
+                                      tr
+                                      
+                                         
+                                          th(scope='col') KPI
+                                          th(scope='col') Date
+                                          th(scope='col') Archived?
+
+                                  tbody
+                                   each kpi in kpis
+                                    tr 
+                                     
+                                      td=kpi.title
+                                      td=kpi.date
+                                      td 
+                                            if kpi.achieved === true
+                                                    span(style='color:#0097A7') Achieved
+                                            if kpi.achieved === false
+                                                    span(style='color:#f59070') Not Achieved
+                                              
+                          
+                        .modal-footer
+                          button.btn.btn-secondary(type='button' data-dismiss='modal') Close  
+          #road.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog.modal-lg
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title My Journey
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                            if tasks.length < 1
+                              span(style='color:red') No tasks found.
+                            if tasks.length > 0
+                              div
+                               table.table.table-hover.table-bordered#example
+                                  thead
+                                      tr
+                                      
+                                         
+                                          th(scope='col') Task
+                                          th(scope='col') Type
+                                          th(scope='col') Module
+                                          th(scope='col') Completed
+
+                                  tbody
+                                   each task in tasks
+                                    tr
+                                      td=task.task_title
+                                      td
+                                       span.badge #{task.task_type}
+                                      td=task.course_title
+                                      td 
+                                                  if task.completed===false
+                                                   span(style='float:right;color:red')
+                                                    | Not Completed
+                                                  if task.completed === true
+                                                   span(style='float:right;color:green')
+                                                    | Completed
+                                       
+                             
+             
+          #editmodule.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title Edit fellow
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                          h4 Fellow Details
+                          hr
+                          form.form(action="/administrator/edit_fellow/#{cohort.id}/#{fellow.id}",method='POST')
+                            .form-group
+                              label(for='title') First name
+                              input.form-control(type='text' name='first_name' placeholder='First name' value=fellow.first_name required)
+                            .form-group
+                              label(for='title') Last name
+                              input.form-control(type='text' name='last_name' placeholder='Last name' value=fellow.last_name required)
+                            .form-group
+                              label(for='title') Email
+                              input.form-control(type='email' name='username' placeholder='Email' value=fellow.username required)
+                            .form-group
+                              label(for='title') Phone Number
+                              input.form-control(type='tel' name='phone_no' placeholder='Phone Number' value=fellow.phone_no required)
+                            .form-group
+                              label(for='title') Date of Birth
+                              input.form-control(type='date' name='dob' placeholder='Date of Birth' value=fellow.dob required)
+                            .form-group
+                              label(for='title') Country
+                              input.form-control(type='text' name='country' placeholder='Country' value=fellow.country required)
+                            .form-group
+                              label(for='title') City
+                              input.form-control(type='text' name='city' placeholder='City' value=fellow.city required)
+                               
+
+                            .form-group
+                             button.btn.btn-primary Save
+                          hr
+                          h4 Profile Image
+                          hr
+                          form.form(action="/administrator/update_image_fellow/#{cohort.id}/#{fellow.id}",method='POST',enctype='multipart/form-data')
+                            .form-group
+                              label Upload Image
+                              input.form-control(type='file', name='file',accept='.png , .jpeg, .jpg',required)
+                            .form-group
+                             button.btn.btn-primary Save
+                          
+                                
+                          
+                        .modal-footer
+                          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          .copy
+            p
+              | © #{year}. All Rights Reserved | Design by 
+              a(href='https://onclickconsultants.com/' target='_blank') Onclick Consultants Ltd
+      .clearfix  
+    // 
+    script(src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js")
+    script(src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js")
+    script.
+      $(document).ready(function () {
+           $('#example').DataTable();
+      });
+    script(src='/administrator/js/jquery.swipebox.min.js')
+    script(type='text/javascript').
+      jQuery(function($) {
+      $(".swipebox").swipebox();
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+      })
+         $('#myTab a').on('click', function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+        })
+      });
+    // scrolling js
+
+    script(src='/administrator/js/jquery.nicescroll.js')
+    script(src='/administrator/js/scripts.js')
+    
+         
+   

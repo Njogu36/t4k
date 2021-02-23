@@ -1,0 +1,363 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Dashboard | Teach For Kenya
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='')
+    meta(name='keywords', content='')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(rel='stylesheet', type='text/css', href='/learner/css/animate.css')
+    link( rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css")
+    link(rel='stylesheet', type='text/css', href='/learner/css/flatpickr.min.css')
+    link(rel='stylesheet', type='text/css', href='/learner/css/line-awesome.css')
+    link(rel='stylesheet', type='text/css', href='/learner/css/line-awesome-font-awesome.min.css')
+    link(rel='stylesheet', type='text/css', href='/learner/css/font-awesome.min.css')
+    link(rel='stylesheet', type='text/css', href='/learner/lib/slick/slick.css')
+    link(rel='stylesheet', type='text/css', href='/learner/lib/slick/slick-theme.css')
+    link(rel='stylesheet', type='text/css', href='/learner/css/style.css')
+    link(rel='stylesheet', type='text/css', href='/learner/css/responsive.css')
+    link(rel='stylesheet', type='text/css', href='/learner/css/jquery.mCustomScrollbar.min.css')
+
+    style.
+     .container-fluid
+     {
+          padding-right:0px;
+          padding-left:0px; 
+     }
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+      }
+      
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #888; 
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }
+      .card-header
+      {
+        background-color: #e75348;
+        border-color: #e75348;
+        color:white;
+        font-weight:bold
+      }
+      .card
+      {
+        border-radius:10px;
+        
+        margin-top:20px;
+      }
+      .card-body
+      {
+        padding:0px
+      }
+      .list-group-item
+      {
+        border-radius:0px
+      }
+      .scrollable-element {
+      scrollbar-color:gray white;
+      }
+      .table td, .table th {
+          padding: .55rem;
+          vertical-align: top;
+          border-top: 1px solid #dee2e6;
+      }
+      .job_descp {
+          float: left;
+          width: 100%;
+          padding: 0 20px 20px 20px;
+          border-bottom: 1px solid #e5e5e5;
+          border-top: 3px solid #e5e5e5;
+          border-left: 1px solid #e5e5e5;
+          border-right: 1px solid #e5e5e5;
+      }
+            
+
+
+  body
+   
+     
+        .container-fluid
+         
+                      section.cover-sec
+                        img(src=user.banner_image, alt='',width='1600px',height='400px')
+                        a(href='/profile/#nav-image', title='',style='background-color:gray;border-color:gray')
+                                          i.fa.fa-camera(style='color:white')
+
+  body
+    .wrapper
+     
+                    
+                    
+              
+                      main
+                        .main-section
+                          .container
+                            .main-section-data
+                              .row
+                                .col-lg-4
+                                  .main-left-sidebar
+                                    .user_profile
+                                      .user-pro-img
+
+                                        img(src=user.profile_image,width='170px',height='170px', alt='')
+                                        a(href='/profile/#nav-image', title='',style='background-color:gray;border-color:gray')
+                                          i.fa.fa-camera(style='color:white')
+
+                                        
+
+                                      // user-pro-img end
+                                      .user_pro_status
+                                        ul.flw-hr
+                                          li
+
+                                            a.btn.btn-info(href='/profile', title='',style='background-color:gray;border-color:gray')
+                                             | Edit Profile
+                                          li
+                                            a.btn.btn-danger(href='/log_out', title='')
+                                            
+                                             | Log Out
+                                        
+                                    .suggestions.full-width
+                                      .card
+                                          h5.card-header My KPI's
+                                           a(href="/add_kpi",style='float:right;padding:2px 5px 2px 5px;background-color:gray;border-color:gray').btn.btn-dark.moveto
+                                           
+                                            | Add KPI's
+                                            &nbsp;
+                                            i.fa.fa-plus(style='font-size:0.9em')
+                                          if kpis.length === 0
+                                            .card-body(style='height:50px;overflow-y:scroll')
+                                              div(style='text-align:center')
+                                                p No KPI's found!
+                                          if kpis.length > 0
+                                          
+                                            .card-body(style='height:250px;overflow-y:scroll;padding-top:0px')
+                
+                                              ul.list-group 
+                                                each kpi in kpis
+                                                  li.list-group-item
+                                                
+                                                    p  #{kpi.title}
+                                                     &nbsp;
+                                                     if kpi.achieved === true
+                                                      span(style='color:#0097A7') Achieved
+                                                     if kpi.achieved === false
+                                                      span(style='color:#f59070') Not Achieved
+                                                     a(href='/edit_kpi/#{kpi.id}',style='float:right;margin-top:8px;color:#293a62;font-weight:bold').fa.fa-edit
+                                          
+
+
+                                    
+                                      .card
+                                          h5.card-header Fellows
+                                          if fellows.length === 1
+                                            .card-body(style='height:50px;overflow-y:scroll')
+                                            
+                                              div(style='text-align:center')
+                                                  p No other fellow found!
+                                          if fellows.length > 1
+                                      
+                                            .card-body(style='height:250px;overflow-y:scroll')
+                                             ul.list-group
+                                              each fellow in fellows
+                                               
+                                               if fellow.id !== user.id
+                                                li.list-group-item
+                                                 a(href="/fellow/#{fellow.id}")
+                                                  .suggestion-usd
+                                                    img(src=fellow.profile_image,width='32px',height='32px', alt='')
+                                                    .sgt-text
+                                                      h5(style='color:black;font-weight:bold')  #{fellow.first_name} #{fellow.last_name}
+                                                      span #{fellow.username}
+                                          
+                                         
+                                    
+                                   
+                                      .card
+                                          h5.card-header Reading List
+                                           a(href="/profile/#nav-reading",style='float:right;padding:2px 5px 2px 5px;background-color:gray;border-color:gray').btn.btn-dark.moveto
+                                           
+                                            
+                                            | Add article
+                                            &nbsp;
+                                            i.fa.fa-plus(style='font-size:0.9em')
+                                          if reads.length === 0
+                                            .card-body(style='height:50px;overflow-y:scroll')
+                                             div(style='text-align:center')
+                                              p No reading list found!
+                                          if reads.length > 0
+                                            .card-body(style='height:300px;overflow-y:scroll;padding-top:0px;')
+                                             ul.list-group
+                                            
+                                                each read in reads
+                                                    li.list-group-item
+                                                      p(style='') 
+                                                      | #{read.title}
+                                                      p(style='font-size:0.8em') By: #{read.by}
+                                                    
+                                                      if read.type === 'link'
+                                                        a(href=read.link,target='_blank',style='color:white').btn.btn-info.btn-sm Visit Link
+                                                          &nbsp;
+                                                          i.fa.fa-link
+                                                      if read.type === 'file'
+                                                        a(href=read.file,target='_blank',style='color:white',download).btn.btn-info.btn-sm Download File
+                                                          &nbsp;
+                                                          i.fa.fa-download
+                                          
+                                                
+
+
+                                        
+                                        
+                                .col-lg-8(style='margin-top:-15px')
+                                  .main-ws-sec
+                                    .user-tab-sec
+                                      h3 #{user.first_name} #{user.last_name}
+                                      .star-descp
+                                      
+                                        span(style='font-size:0.8em;') #{user.username} | #{user.phone_no}
+                                       
+                                        br
+                                        br
+                                       
+                                      .suggestions.full-width(style='margin-top:0px')
+                                         #feed-dd.product-feed-tab.current(style='margin-top:25px')
+                                          .posts-section
+                                         
+                                           .post-bar
+                                          
+                                            .job_descp
+                                              h4(style='margin-top:5px;font-weight:bold') My bold question:
+                                               if user.bold_question === ''
+                                                a(href="/add_bold_question",style='float:right;padding:2px 5px 2px 5px;background-color:gray;border-color:gray').btn.btn-dark.moveto
+                                                    | Add Bold Question
+                                                    &nbsp;
+                                                    i.fa.fa-plus(style='font-size:0.9em')
+                                           
+                                               if user.bold_question !== ''
+                                                a(href="/edit_bold_question/",style='float:right;color:#293a62;font-weight:bold').fa.fa-edit
+                                              if user.bold_question === ''
+                                               p(style='color:red;margin-top:5px') No bold question found.
+                                              if user.bold_question !== ''
+                                               p(style='margin-top:5px')  #{user.bold_question}
+                                               
+                                      .suggestions.full-width
+                                        .sd-title
+                                          h4(style='font-weight:bolder') My Tasks
+                                              
+
+                                      .suggestions.full-width
+                                        #feed-dd.product-feed-tab.current(style='margin-top:10px')
+                                         .posts-section
+                                         
+                                          .post-bar
+                                          
+                                            .job_descp
+                                              h4(style='margin-top:15px;font-weight:bold') Ongoing Module CountDown
+                                               
+                                             
+                                                  
+                                            
+                                              
+                                             
+                                              
+                                      .top-profiles
+                                        .pf-hd
+                                          h6 Modules 
+                                      
+                                        .profiles-slider
+                                         if courses.length < 1
+                                           p No modules found.
+                                         if courses.length > 0
+                                          each course in courses
+                                           if course.enabled===true
+                                            .user-profy
+                                              img(src=course.profile_image,width='130px',height='130px', alt='')
+                                              h5 #{course.title}
+                                              br
+                                            
+                                              a(href='/course/#{course.id}', title='') View Module
+                                         
+   
+                               
+                                  
+                                  
+
+                                      
+                                     
+                                    
+                                    
+                                                  
+                                                 
+                                                
+                                                                     
+                                            
+                                         
+                                             
+                                        
+                                    
+                                       
+
+                      footer
+                        .footy-sec.mn.no-margin
+                          .container
+                            ul
+                             li
+
+                             
+                            
+                              p
+                               | Powered By Onclick Consultants LLP
+                        
+                               
+                      script(type='text/javascript', src='/learner/js/jquery.min.js')
+                      script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin='anonymous')
+                      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl', crossorigin='anonymous')
+
+                      script(type='text/javascript', src='/learner/js/flatpickr.min.js')
+                      script(type='text/javascript', src='/learner/lib/slick/slick.min.js')
+                      script(type='text/javascript', src='/learner/js/script.js')
+                      script(type='text/javascript', src='/learner/js/jquery.mCustomScrollbar.js')
+                      script.
+                        var url = document.location.toString();
+                        if(url.match('#'))
+                        {
+                          $('.nav-tabs a[href="#'+url.split('#')[1]+'"]').tab('show');
+
+                        }
+                        $('.nav-tabs a').on('shown.bs.tab',function(e){
+                          window.location.hash = e.target.hash;
+                        })
+                      script.
+                        var due_date = document.getElementById('due_date').value
+                        var deadline = new Date(due_date).getTime(); 
+                        var x = setInterval(function() { 
+                        var now = new Date().getTime(); 
+                        var t = deadline - now; 
+                        var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
+                        var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+                        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+                        var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+                        document.getElementById("demo").innerHTML = days + " day(s) "  
+                        
+                            if (t < 0) { 
+                                clearInterval(x); 
+                                document.getElementById("demo").innerHTML = "EXPIRED"; 
+                            } 
+                        }, 1000); 
+
+
+                           
+
+

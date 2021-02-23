@@ -1,0 +1,256 @@
+doctype html
+
+html
+  head
+    title #{cohort.title} - Add Module | Teach For Kenya LMS
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+    meta(name='keywords' content='')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    link(href='/administrator/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(href='/administrator/css/style.css' rel='stylesheet' type='text/css')
+    link(href='/administrator/css/font-awesome.css' rel='stylesheet')
+    script(src='/administrator/js/jquery.min.js')
+    script(src='/administrator/js/bootstrap.min.js')
+    script(src='/administrator/js/jquery.metisMenu.js')
+    script(src='/administrator/js/jquery.slimscroll.min.js')
+    // Custom and plugin javascript
+    link(rel='stylesheet' href='/administrator/css/swipebox.css')
+   
+    link(href='/administrator/css/custom.css' rel='stylesheet')
+    script(src='/administrator/js/custom.js')
+    script(src='/administrator/js/screenfull.js')
+    script.
+      $(function () {
+      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+      if (!screenfull.enabled) {
+      return false;
+      }
+      $('#toggle').click(function () {
+      screenfull.toggle($('#container')[0]);
+      });
+      });
+    style.
+     .table thead tr th {
+        padding: 15px !important;
+        font-size: 0.85em;
+        color: black;
+        font-weight:bolder;
+        border-top: none !important;
+     }
+     .nav  li  a {
+            color: black;
+            font-weight: 500;
+            padding: 0px 20px 0px 0px;
+            font-size: 0.85em;
+            border-bottom: 1px solid #E9E9E9;
+     }
+     .nav-item
+     {
+         border-right:1px solid gray
+     }
+   
+  body
+    #wrapper
+      // -
+      nav.navbar-default.navbar-static-top(role='navigation')
+        .navbar-header
+          button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          h1
+            a.navbar-brand(href='/administrator/cohort/#{cohort.id}') 
+             img(src="/icon.jpg",width='80px', alt="")
+        .border-bottom
+          .full-left
+           
+         
+          .drop-men
+            ul.nav_1
+              
+              li.dropdown
+                a.dropdown-toggle.dropdown-at(href='#' data-toggle='dropdown')
+                  span.name-caret
+                    | #{user.username}
+                    
+                  img(src='/user.png',width='60px')
+              
+          // /.navbar-collapse
+          .clearfix
+          .navbar-default.sidebar(role='navigation')
+            .sidebar-nav.navbar-collapse
+              ul#side-menu.nav
+                li
+                  a.hvr-bounce-to-right(href='/administrator/cohort/#{cohort.id}')
+                    i.fa.fa-dashboard.nav_icon
+                    span.nav-label Dashboard
+                li
+                  a.hvr-bounce-to-right(href='#')
+                    i.fa.fa-users.nav_icon
+                    span.nav-label Fellows
+                    span.fa.arrow
+                  ul.nav.nav-second-level
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/add_fellow/#{cohort.id}')
+                        i.fa.fa-plus.nav_icon
+                        | Add Fellow
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_fellows/#{cohort.id}')
+                        i.fa.fa-eye.nav_icon
+                        | View Fellows
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_bold_questions/#{cohort.id}')
+                        i.fa.fa-question.nav_icon
+                        | View Bold Questions
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_kpis/#{cohort.id}')
+                        i.fa.fa-list.nav_icon
+                        | View KPI's
+                    
+
+              
+                li
+                  a.hvr-bounce-to-right(href='#')
+                    i.fa.fa-folder-open-o.nav_icon
+                    span.nav-label Modules
+                    span.fa.arrow
+                  ul.nav.nav-second-level
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/add_module/#{cohort.id}')
+                        i.fa.fa-plus.nav_icon
+                        | Add Module
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_modules/#{cohort.id}')
+                        i.fa.fa-eye.nav_icon
+                        | View Modules
+                li
+                  a.hvr-bounce-to-right(href='/administrator/reading_list/#{cohort.id}')
+                    i.fa.fa-book.nav_icon
+                    span.nav-label  Reading List
+                li
+                  a.hvr-bounce-to-right(href='/administrator/home')
+                    i.fa.fa-arrow-left.nav_icon
+                    span.nav-label  Back home
+              
+                li
+                 
+                
+                  
+                      a.hvr-bounce-to-right(href='/administrator/log_out')
+                        i.fa.fa-sign-out.nav_icon
+                        | Signout
+      #page-wrapper.gray-bg.dashbard-1
+        .content-main
+          // banner
+          div(style='margin: 1em 1em ;')
+           != messages('message', locals)
+          .banner
+            h2
+              a(href='#') Home
+              i.fa.fa-angle-right
+              span #{cohort.title}
+              i.fa.fa-angle-right
+              span Add Module
+
+          
+        
+          .gallery
+              // Nav tabs
+              .row
+                .col-md-2
+                .col-md-8
+                  form.form(action='/administrator/add_new_module_post/#{cohort.id}',method='POST',enctype='multipart/form-data')
+                   .row
+                     .col-md-6
+                      .form-group
+                       label(for='name') Module title
+                       input.form-control(type='text',name='title',placeholder='Module title',required)
+                      .form-group
+                       label(for='name') Module Start Date
+                       input.form-control(type='date',name='start_date',placeholder='Module start date',required)
+                      .form-group
+                       label(for='name') Module End Date
+                       input.form-control(type='date',name='end_date',placeholder='Module end date',required)
+                      .form-group
+                       label(for='name') Module Duration
+                       input.form-control(type='text',name='duration',placeholder='Module duration (in days)',required)
+                      .form-group
+                       label(for='name') Module Year
+                       input.form-control(type='number',name='year',placeholder='Module year',required)
+                      .form-group
+                       label(for='name') Type
+                       select.form-control(name='type',required)
+                        option(value='') Choose One
+                        option(value='with') With sub-modules
+                        option(value='without') Without sub-modules
+                     .col-md-6
+                      .form-group
+                        label(for='name') Description
+                        br
+                        textarea.form-control(name="description", cols="30", rows="12")
+                      .form-group
+                        label Upload Module Thumbnail
+                        input.form-control(type='file', name='file',accept='.png , .jpeg, .jpg',required)
+                   .row
+                     .col-md-12
+                      .form-group
+                       if user.type === 'super admin' || user.type === 'content manager'
+                        button.btn.btn-primary Save
+                       if user.type === 'data manager'
+                        button.btn.btn-primary(disabled) Save
+                                      
+                     
+                .col-md-2
+                     
+            
+             
+            
+            .clearfix  
+          // //gallery
+          // 
+          .copy
+            p
+              | © #{year}. All Rights Reserved | Design by 
+              a(href='https://onclickconsultants.com/' target='_blank') Onclick Consultants Ltd
+      .clearfix  
+    // 
+   
+    script(src='/administrator/js/jquery.swipebox.min.js')
+    script(type='text/javascript').
+      jQuery(function($) {
+      $(".swipebox").swipebox();
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+      })
+         $('#myTab a').on('click', function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+        })
+      });
+    // scrolling js
+
+    script(src='/administrator/js/jquery.nicescroll.js')
+    script(src='/administrator/js/scripts.js')
+    
+         
+    script.
+                        var due_date = document.getElementById('due_date').value
+                        var deadline = new Date(due_date).getTime(); 
+                        var x = setInterval(function() { 
+                        var now = new Date().getTime(); 
+                        var t = deadline - now; 
+                        var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
+                        var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+                        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+                        var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+                        document.getElementById("demo").innerHTML = days + " day(s) "  
+                        
+                            if (t < 0) { 
+                                clearInterval(x); 
+                                document.getElementById("demo").innerHTML = "EXPIRED"; 
+                            } 
+                        }, 1000); 

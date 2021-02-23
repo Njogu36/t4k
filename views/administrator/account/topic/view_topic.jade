@@ -1,0 +1,394 @@
+doctype html
+
+html
+  head
+    title #{cohort.title} - Topic | Teach For Kenya LMS
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+    meta(name='keywords' content='')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    link(href='/administrator/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(href='/administrator/css/style.css' rel='stylesheet' type='text/css')
+    link(href='/administrator/css/font-awesome.css' rel='stylesheet')
+    script(src='/administrator/js/jquery.min.js')
+    script(src='/administrator/js/bootstrap.min.js')
+    //script(src='./node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js')
+    script(src='/administrator/js/jquery.metisMenu.js')
+    script(src='/administrator/js/jquery.slimscroll.min.js')
+    // Custom and plugin javascript
+    link(rel='stylesheet' href='/administrator/css/swipebox.css')
+   
+    link(href='/administrator/css/custom.css' rel='stylesheet')
+    script(src='/administrator/js/custom.js')
+    script(src='/administrator/js/screenfull.js')
+    script.
+      $(function () {
+      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+      if (!screenfull.enabled) {
+      return false;
+      }
+      $('#toggle').click(function () {
+      screenfull.toggle($('#container')[0]);
+      });
+      });
+    style.
+     .table thead tr th {
+        padding: 15px !important;
+        font-size: 0.85em;
+        color: black;
+        font-weight:bolder;
+        border-top: none !important;
+     }
+     .nav  li  a {
+            color: black;
+            font-weight: 500;
+            padding: 0px 20px 0px 0px;
+            font-size: 0.85em;
+            border-bottom: 1px solid #E9E9E9;
+     }
+     .nav-item
+     {
+         border-right:1px solid gray
+     }
+     #success
+     {
+       display:none
+     }
+     #error
+     {
+       display:none
+     }
+   
+  body
+    #wrapper
+      // -
+      nav.navbar-default.navbar-static-top(role='navigation')
+        .navbar-header
+          button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          h1
+            a.navbar-brand(href='/administrator/cohort/#{cohort.id}') 
+             img(src="/icon.jpg",width='80px', alt="")
+        .border-bottom
+          .full-left
+           
+         
+          .drop-men
+            ul.nav_1
+              
+              li.dropdown
+                a.dropdown-toggle.dropdown-at(href='#' data-toggle='dropdown')
+                  span.name-caret
+                    | #{user.username}
+                    
+                  img(src='/user.png',width='60px')
+              
+          // /.navbar-collapse
+          .clearfix
+          .navbar-default.sidebar(role='navigation')
+            .sidebar-nav.navbar-collapse
+              ul#side-menu.nav
+                li
+                  a.hvr-bounce-to-right(href='/administrator/cohort/#{cohort.id}')
+                    i.fa.fa-dashboard.nav_icon
+                    span.nav-label Dashboard
+                li
+                  a.hvr-bounce-to-right(href='#')
+                    i.fa.fa-users.nav_icon
+                    span.nav-label Fellows
+                    span.fa.arrow
+                  ul.nav.nav-second-level
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/add_fellow/#{cohort.id}')
+                        i.fa.fa-plus.nav_icon
+                        | Add Fellow
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_fellows/#{cohort.id}')
+                        i.fa.fa-eye.nav_icon
+                        | View Fellows
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_bold_questions/#{cohort.id}')
+                        i.fa.fa-question.nav_icon
+                        | View Bold Questions
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_kpis/#{cohort.id}')
+                        i.fa.fa-list.nav_icon
+                        | View KPI's
+                    
+
+              
+                li
+                  a.hvr-bounce-to-right(href='#')
+                    i.fa.fa-folder-open-o.nav_icon
+                    span.nav-label Modules
+                    span.fa.arrow
+                  ul.nav.nav-second-level
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/add_module/#{cohort.id}')
+                        i.fa.fa-plus.nav_icon
+                        | Add Module
+                    li
+                      a.hvr-bounce-to-right(href='/administrator/view_modules/#{cohort.id}')
+                        i.fa.fa-eye.nav_icon
+                        | View Modules
+                li
+                  a.hvr-bounce-to-right(href='/administrator/reading_list/#{cohort.id}')
+                    i.fa.fa-book.nav_icon
+                    span.nav-label  Reading List
+                li
+                  a.hvr-bounce-to-right(href='/administrator/home')
+                    i.fa.fa-arrow-left.nav_icon
+                    span.nav-label  Back home
+              
+                li
+                 
+                
+                  
+                      a.hvr-bounce-to-right(href='/administrator/log_out')
+                        i.fa.fa-sign-out.nav_icon
+                        | Signout
+      #page-wrapper.gray-bg.dashbard-1
+        .content-main
+          // banner
+          div(style='margin: 1em 1em ;')
+           != messages('message', locals)
+          #success
+               .alert.alert-info.alert-mg-b(role='alert')
+                 strong#messageSuccess
+          #error
+               .alert.alert-danger.alert-mg-b(role='alert')
+                 strong#messageError
+          .banner
+            h2
+              a(href='#') Home
+              i.fa.fa-angle-right
+              span #{cohort.title}
+              i.fa.fa-angle-right
+              if course.sub_module === true
+                a(href="/administrator/view_module/#{cohort.id}/#{course.module_id}") #{course.module_title}
+                i.fa.fa-angle-right
+                a(href="/administrator/view_module2/#{cohort.id}/#{course.id}") #{course.title}
+                i.fa.fa-angle-right
+              if course.sub_module === false
+                a(href="/administrator/view_module/#{cohort.id}/#{course.id}") #{course.title}
+                i.fa.fa-angle-right
+               
+              span #{week.title}
+              i.fa.fa-angle-right
+              span #{topic.title} 
+              span.badge(style='padding:5px;color:white') #{topic.type}
+
+
+          
+        
+          .gallery
+             
+           .row
+            .col-md-12(style='margin-bottom:10px')
+              if course.sub_module === false
+               a(href="/administrator/view_module/#{cohort.id}/#{course.id}",style='float:left').btn.btn-primary Go back
+              if course.sub_module === true
+               a(href="/administrator/view_module2/#{cohort.id}/#{course.id}",style='float:left').btn.btn-primary Go back
+              a(href="/administrator/delete_topic/#{cohort.id}/#{course.id}/#{week.id}/#{topic.id}").btn.btn-danger(style='float:right') Delete topic
+              button.btn.btn-info(style='float:right;margin-right:5px' data-toggle='modal' data-target='#edittopic') Edit topic
+              
+            hr
+            
+            if topic.type === 'Read' || topic.type === 'Watch'
+             .col-md-12
+              form(action='/administrator/add_data/#{cohort.id}/#{course.id}/#{week.id}/#{topic.id}',method='POST')
+                textarea#editor1(name='editor' rows='100' cols='200')
+                  | #{topic.description}
+                br
+                button.btn.btn-success  Save
+            if topic.type === 'Do'
+             .col-md-12
+               input.form-control(type="hidden", name="cohort",value=cohort.id,id='cohort')
+               input.form-control(type="hidden", name="course",value=course.id,id='course')
+               input.form-control(type="hidden", name="week",value=week.id,id='week')
+               input.form-control(type="hidden", name="topic",value=topic.id,id='topic')
+               div#build-wrap 
+               br
+               if user.type ==='super admin' || user.type ==='content manager'
+                 if topic.questions.length>0
+           
+                     a(href="#" data-toggle="modal" data-target="#PrimaryModalalert").btn.btn-primary Preview Form
+                     #PrimaryModalalert.modal.modal-edu-general.default-popup-PrimaryModal.fade(role='dialog')
+                      .modal-dialog
+                        .modal-content
+
+                          .modal-header.header-color-modal
+                              h5#staticBackdropLabel.modal-title Preview Form
+                                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                  span(aria-hidden='true') ×
+
+                          .modal-body(style='text-align:left')
+                                !{topic.questions[0].html}
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                 &nbsp;&nbsp;
+          
+                 button.btn.btn-success#submit Save Form
+
+                            
+                 
+              
+                 
+            
+             
+            
+          #edittopic.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                .modal-dialog
+                      .modal-content
+                        .modal-header
+                          h5#staticBackdropLabel.modal-title Edit topic
+                           button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') ×
+                        .modal-body
+                          form.form(action="/administrator/edit_topic/#{cohort.id}/#{course.id}/#{week.id}/#{topic.id}",method='POST')
+                            .form-group
+                              label(for='title') Title
+                              input.form-control(type='text' name='title' placeholder='Topic title' value=topic.title required)
+                            button.btn.btn-primary  Save
+                           
+                          
+                        .modal-footer
+                          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          .copy
+            p
+              | © #{year}. All Rights Reserved | Design by 
+              a(href='https://onclickconsultants.com/' target='_blank') Onclick Consultants Ltd
+      .clearfix  
+    // 
+   
+    script(src='/administrator/js/jquery.swipebox.min.js')
+    // CKEDITOR
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js")
+    script(src="https://formbuilder.online/assets/js/form-render.min.js")
+    script(src="https://formbuilder.online/assets/js/form-builder.min.js")
+    script(src="/administrator/ckeditor/ckeditor.js")
+
+    script.
+     jQuery(function($) {
+      var options ={
+         disabledActionButtons: ['data','clear','save'],
+         disabledSubtypes: {text: ['password','color','Fine Uploader'],button:['button','reset','default','danger']},
+         disableFields: ['autocomplete','file','hidden','button']
+
+         };
+      var fbEditor = document.getElementById('build-wrap');
+      var formBuilder = $(fbEditor).formBuilder(options);
+             
+      var cohort = document.getElementById('cohort').value
+      var course = document.getElementById('course').value
+      var week = document.getElementById('week').value
+      var topic = document.getElementById('topic').value 
+
+      $.ajax({url: '/administrator/load_form_data/'+cohort+'/'+course+'/'+week+'/'+topic,
+              type: 'GET',
+              dataType: 'json',
+            }).then(function (response) {
+                    if(response.success===true)
+                    {
+                      console.log(response.formData)
+                     setTimeout(()=>{
+                       formBuilder.actions.setData(response.formData);
+                     },500)
+                     
+                       
+                    }
+                    else if(response.success ===false)
+                    {
+                       setTimeout(()=>{
+                       formBuilder.actions.setData(response.formData);
+                     },500)
+                    }             
+      });
+
+      document.getElementById('submit').addEventListener('click', function() {
+              const xml = formBuilder.actions.getData('xml')
+              const json = formBuilder.actions.getData('json')
+              var formData = xml
+              formRenderOpts = {
+                dataType: 'xml',
+                formData: formData
+              };
+              var renderedForm = $('<div>');
+              renderedForm.formRender(formRenderOpts);
+
+              $.ajax({
+                    url: '/administrator/add_form_data/'+cohort+'/'+course+'/'+week+'/'+topic,
+                    type: 'POST',
+                    dataType: 'json',
+                    data:{
+                        'html':renderedForm.html(),
+                        'json':json, 
+                    }
+              }).then(function (response) {
+                 
+                      if(response.success===true)
+                      {
+                       history.go()
+                      
+                       document.getElementById('success').style.display = 'block'
+                       document.getElementById('messageSuccess').innerHTML = response.message
+                      }
+                      else if(response.success===false)
+                      {
+                        history.go()
+                       
+                        document.getElementById('error').style.display = 'block'
+                        document.getElementById('messageError').innerHTML = response.message
+        
+                      }  
+                });
+              
+            }); 
+     });
+
+    script.
+       CKEDITOR.replace('editor1', {
+                "extraPlugins" : 'imagebrowser',
+                "imageBrowser_listUrl" : "/files"
+        });
+
+
+    script(type='text/javascript').
+      jQuery(function($) {
+          $(".swipebox").swipebox();
+          $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+          })
+          $('#myTab a').on('click', function (e) {
+          e.preventDefault()
+          $(this).tab('show')
+          })
+      });
+    // scrolling js
+
+    script(src='/administrator/js/jquery.nicescroll.js')
+    script(src='/administrator/js/scripts.js')
+    
+         
+    script.
+                        var due_date = document.getElementById('due_date').value
+                        var deadline = new Date(due_date).getTime(); 
+                        var x = setInterval(function() { 
+                        var now = new Date().getTime(); 
+                        var t = deadline - now; 
+                        var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
+                        var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+                        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+                        var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+                        document.getElementById("demo").innerHTML = days + " day(s) "  
+                        
+                            if (t < 0) { 
+                                clearInterval(x); 
+                                document.getElementById("demo").innerHTML = "EXPIRED"; 
+                            } 
+                        }, 1000); 

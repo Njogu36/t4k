@@ -1,0 +1,299 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title #{fellow.first_name} #{fellow.last_name} | Teach For Kenya
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='description' content='')
+    meta(name='keywords' content='')
+    link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
+    link(rel='stylesheet' type='text/css' href='/learner/css/animate.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/bootstrap.min.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/line-awesome.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/line-awesome-font-awesome.min.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/font-awesome.min.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/jquery.mCustomScrollbar.min.css')
+    link(rel='stylesheet' type='text/css' href='/learner/lib/slick/slick.css')
+    link(rel='stylesheet' type='text/css' href='/learner/lib/slick/slick-theme.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/style.css')
+    link(rel='stylesheet' type='text/css' href='/learner/css/responsive.css')
+    style.
+     #file
+     {
+       display:none
+     }
+     #link
+     {
+       display:none
+     }
+    
+  body
+    .wrapper
+      main
+        .main-section
+          .container
+            != messages('message', locals)
+            .main-section-data
+              .row
+                .col-lg-4.col-md-4.pd-left-none.no-pd
+                  .main-left-sidebar.no-margin
+                    .user-data.full-width
+                      .user-profile
+                        .username-dt
+                          .usr-pic
+                            img(src=fellow.profile_image width='100%' height='100%' alt='')
+                        // username-dt end
+                        .user-specs
+                          h3 #{fellow.first_name} #{fellow.last_name}
+                          span #{fellow.username} | #{fellow.phone_no}
+                        div(style='margin-bottom:5px;')
+                            each tag in fellow.tags
+                                  span(style='background-color:gray;border-radius:2px;color:white;padding:4px;margin-right:4px') #{tag}
+                                 
+                      // user-profile end
+                      ul.user-fw-status(style='margin-top:10px')
+                        
+                        li
+                          a(href='/dashboard' title='') Go back
+                          &nbsp;
+                          span | 
+                          &nbsp;
+                          a(href='/log_out' title='') Logout
+                          &nbsp;
+                          &nbsp;
+                     
+                        
+                      // tags-sec end
+                      // user-data end
+                    .suggestions.full-width
+                        .sd-title
+                          h3 My KPI'S
+                         
+                        if kpis.length < 1
+                          .suggestions-list
+                          
+                           .suggestion-usd(style='text-align:center;')
+                             p No kpis found.
+                        if kpis.length > 0
+                          .suggestions-list(style='height:200px;overflow-y:scroll')
+                           each kpi in kpis
+                            .suggestion-usd(style='margin-top:-15px')
+                             p #{kpi.title}
+                              &nbsp;
+                              if kpi.achieved === true
+                                      span(style='color:#0097A7') Achieved
+                              if kpi.achieved === false
+                                      span(style='color:#f59070') Not Achieved
+                            
+                           
+                          
+                    
+                           
+                          
+                    .suggestions.full-width
+                        .sd-title
+                          h3 Reading List
+                          
+                        if reads.length < 1
+
+                         .suggestions-list(style='text-align:center')
+                          .suggestion-usd
+                            p No articles found.
+                        if reads.length > 0
+                         .suggestions-list(style='height:200px;overflow-y:scroll')
+                           each read in reads
+                            .suggestion-usd(style='margin-top:-15px')
+                              p(style='') 
+                                    | #{read.title}
+                              p(style='font-size:0.8em') By: #{read.by}
+                              if read.type === 'link'
+                                                        a(href=read.url,target='_blank',style='color:white').btn.btn-info.btn-sm Visit Link
+                                                          &nbsp;
+                                                          i.fa.fa-link
+                              if read.type === 'file'
+                                                        a(href=read.file,target='_blank',style='color:white',download).btn.btn-info.btn-sm Download File
+                                                          &nbsp;
+                                                          i.fa.fa-download
+                         
+                           
+                        
+                .col-lg-8.col-md-8.no-pd
+                  .main-ws-sec
+                    .post-topbar
+                      .comment_box
+                        h4(style='font-weight:bold') My Bold Question
+                        br
+                        
+                        if fellow.bold_question === ''
+                          span(style='color:red') No bold question found.
+                        if fellow.bold_question !== ''
+                          p #{fellow.bold_question}
+                            
+                        
+                                           
+                        
+                       
+                    // post-st end
+                    // post-topbar end
+                    
+                    .post-topbar
+                      .comment_box
+                        h3(style='font-weight:bold') Ongoing module countdown
+                        br
+                        if !course
+                         div(style='text-align:center')
+                            span(style='color:red') No ongoing module found.
+                        if course
+                         a(href="/course/#{course.id}")
+                                                      .row
+                                                       .col-md-5(style='margin-top:10px')
+                                                        img(src=course.profile_image,width='50%', alt="")
+                                                       .col-md-7(style='margin-top:30px')
+                                                          h4(style='color:#0097A7')  #{course.title}
+                                                        
+                                                          input(type="hidden",value=course.end_date,id='due_date')
+                                                          br
+                                                          p#demo(style='font-size:2.0em;font-weight:bold')
+                              
+                          
+                      // post-bar end
+                    .top-profiles
+                        .pf-hd
+                          h3 Modules 
+                          i.la.la-ellipsis-v
+                        .profiles-slider
+                          if courses.length < 1
+                              p No modules found.
+                          if courses.length > 0
+                            each course in courses
+                              if course.enabled===true
+                                .user-profy
+                                  img(src=course.profile_image,width='130px',height='130px', alt='')
+                                  h5 #{course.title}
+                                  br
+                                  a(href='/view_module/#{course.id}', title='') View Module
+                   
+
+                    #addnewkpi.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            h5#staticBackdropLabel.modal-title Add new KPI
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                              span(aria-hidden='true') ×
+                          .modal-body
+                            form.form(action="/add_new_kpi",method='POST')
+                              .form-group
+                                
+                                input.form-control(type='text' name='title' placeholder='Enter New Key Performance Indicator' required)
+                              .form-group
+                                 button.btn.btn-primary Save
+                            
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                    #addboldquestion.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            h5#staticBackdropLabel.modal-title Add Bold Question
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                              span(aria-hidden='true') ×
+                          .modal-body
+                            form.form(action="/add_bold_question",method='POST')
+                              .form-group
+                                textarea.form-control(name="bold_question", cols="30", rows="10") #{user.bold_question}
+                                
+                              .form-group
+                                 button.btn.btn-primary Save
+                            
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                    #addnewarticle.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            h5#staticBackdropLabel.modal-title Add New Article
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                              span(aria-hidden='true') ×
+                          .modal-body
+                              p To proceed, kindly choose one option
+                              .custom-control.custom-radio.custom-control-inline(style='margin-top:15px')
+                                        input#customRadioInline1.form-control(type='radio', name='customRadioInline1',value='Link')
+                                        
+                                        label.custom-control-label(for='customRadioInline1')  Website link
+                              .custom-control.custom-radio.custom-control-inline(style='margin-top:15px')
+                                        input#customRadioInline2.form-control(type='radio', name='customRadioInline1',value='File')
+                                        
+                                        label.custom-control-label(for='customRadioInline2')  Upload File
+
+                                                      
+                              #file(style='text-align:left;margin-top:10px')
+                                  form(action='/reading_list_file',method='POST',enctype='multipart/form-data')
+                                                  .form-group
+                                                    h5 Title*
+                                                    input.form-control(type='text', name='title', placeholder='Enter title',required)
+                                                  .form-group
+                                                    h5 Upload File
+                                                    input.form-control(type='file', name='file',accept='.doc , .docx, .dot, .pdf, .dotx, .txt',required)
+                                                  .form-group
+                                                        button(type='submit').btn.btn-primary Save
+                              #link(style='text-align:left;margin-top:10px')
+                                                form(action='/reading_list_link',method='POST')
+                                                  .form-group
+                                                    h5 Title*
+                                                    input.form-control(type='text', name='title', placeholder='Enter title',required)
+                                                  .form-group
+                                                    h5 Website Link
+                                                    input.form-control(type='url', name='url', placeholder='Enter Website Url',required)
+                                                  .form-group
+                                                        button(type='submit').btn.btn-primary Save
+                            
+                          .modal-footer
+                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                         
+                          
+               
+      
+         
+                // conversation-box end
+                // chatbox-list end
+                // theme-layout end
+                script(type='text/javascript' src='/learner/js/jquery.min.js')
+                script(type='text/javascript' src='/learner/js/popper.js')
+                script(type='text/javascript' src='/learner/js/bootstrap.min.js')
+                script(type='text/javascript' src='/learner/js/jquery.mCustomScrollbar.js')
+                script(type='text/javascript' src='/learner/lib/slick/slick.min.js')
+                script(type='text/javascript' src='/learner/js/scrollbar.js')
+                script(type='text/javascript' src='/learner/js/script.js')
+                script(type='text/javascript').
+                  jQuery(function($) {
+                 
+                    $('input[type=radio][name=customRadioInline1]').change(function() {
+                        if (this.value == 'File') {
+                            $('#link').hide()
+                            $('#file').show()
+                        }
+                        else if (this.value == 'Link') {
+                            $('#link').show()
+                            $('#file').hide()
+                        }
+                    });
+                   
+                  });
+                script.
+                        var due_date = document.getElementById('due_date').value
+                        var deadline = new Date(due_date).getTime(); 
+                        var x = setInterval(function() { 
+                        var now = new Date().getTime(); 
+                        var t = deadline - now; 
+                        var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
+                        var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+                        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+                        var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+                        document.getElementById("demo").innerHTML = days + " day(s) "  
+                        
+                            if (t < 0) { 
+                                clearInterval(x); 
+                                document.getElementById("demo").innerHTML = "EXPIRED"; 
+                            } 
+                        }, 1000); 

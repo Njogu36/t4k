@@ -13,6 +13,7 @@ const Admin = require('../models/admin.js')
 
 
 const login_page = (req, res) => {
+    console.log('DOne')
  
     Admin.findOne({username:'admin@teachforkenya.org'},(err,admin)=>{
         if(admin)

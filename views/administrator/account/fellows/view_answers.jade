@@ -2,13 +2,15 @@ doctype html
 
 html
   head
-    title #{cohort.title} - Edit #{week.title} | Teach For Kenya LMS
+    title #{cohort.title} - View Answers | Teach For Kenya LMS
     meta(name='viewport' content='width=device-width, initial-scale=1')
     meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
     meta(name='keywords' content='')
     script(type='application/x-javascript').
       addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
     link(href='/administrator/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+    link(rel="stylesheet", href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css")
+   
     link(rel='shortcut icon', type='image/x-icon', href='/icon.jpg')
     link(href='/administrator/css/style.css' rel='stylesheet' type='text/css')
     link(href='/administrator/css/font-awesome.css' rel='stylesheet')
@@ -16,9 +18,7 @@ html
     script(src='/administrator/js/bootstrap.min.js')
     script(src='/administrator/js/jquery.metisMenu.js')
     script(src='/administrator/js/jquery.slimscroll.min.js')
-    // Custom and plugin javascript
     link(rel='stylesheet' href='/administrator/css/swipebox.css')
-   
     link(href='/administrator/css/custom.css' rel='stylesheet')
     script(src='/administrator/js/custom.js')
     script(src='/administrator/js/screenfull.js')
@@ -39,6 +39,10 @@ html
         color: black;
         font-weight:bolder;
         border-top: none !important;
+     }
+     .table tbody tr td {
+       
+        color: black;
      }
      .nav  li  a {
             color: black;
@@ -114,7 +118,7 @@ html
                       a.hvr-bounce-to-right(href='/administrator/view_answers/#{cohort.id}')
                         i.fa.fa-list.nav_icon
                         | View Answers
-                   
+
 
               
                 li
@@ -158,36 +162,39 @@ html
               i.fa.fa-angle-right
               span #{cohort.title}
               i.fa.fa-angle-right
-              a(href="/administrator/view_module/#{cohort.id}/#{course.id}") #{course.title}
-              i.fa.fa-angle-right
-              span #{week.title}
+              span View Answered Questions
 
           
         
           .gallery
-            
-            .col-md-4
-            .col-md-4
-                form.form(action="/administrator/edit_week_post/#{cohort.id}/#{course.id}/#{week.id}",method='POST')
-                      .form-group
-                       label(for='title') Title
-                       input.form-control(type='text' name='title' placeholder='Week title' value=week.title required)
-                      .form-group
-                       label(for='title') Start Date
-                       input.form-control(type='date' name='start_date' placeholder='Start Date' value=week.start_date required)
-                      .form-group
-                       label(for='title') End Date
-                       input.form-control(type='date' name='end_date' placeholder='End Date' value=week.end_date required)
-                      .form-group
-                       button.btn.btn-primary Update
-            .col-md-4
-             .clearfix  
+              // Nav tabs
+              table.table.table-hover.table-bordered#example
+                    thead
+                        tr
+                        
+                            th(scope='col') Fellow
+                            th(scope='col') Module
+                            th(scope='col') Topic
+                            th(scope='col') Date
+                            th(scope='col') Time
+                           
+
+                    tbody
+                      each x in answers 
+                       tr 
+                        td 
+                         a(href="/administrator/view_answer/#{x.cohort_id}/#{x.fellow_id}/#{x.topic_id}") #{x.first_name} #{x.last_name}
+                        td #{x.course_title} 
+                        td #{x.topic_title} 
+                        td #{x.date}
+                        td #{x.time}
+                     
                      
             
              
             
-          
-          
+            
+          // 
           .copy
             p
               | © #{year}. All Rights Reserved | Design by 
@@ -196,6 +203,12 @@ html
     // 
    
     script(src='/administrator/js/jquery.swipebox.min.js')
+    script(src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js")
+    script(src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js")
+    script.
+      $(document).ready(function () {
+           $('#example').DataTable();
+      });
     script(type='text/javascript').
       jQuery(function($) {
       $(".swipebox").swipebox();
@@ -213,20 +226,4 @@ html
     script(src='/administrator/js/scripts.js')
     
          
-    script.
-                        var due_date = document.getElementById('due_date').value
-                        var deadline = new Date(due_date).getTime(); 
-                        var x = setInterval(function() { 
-                        var now = new Date().getTime(); 
-                        var t = deadline - now; 
-                        var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
-                        var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
-                        var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
-                        var seconds = Math.floor((t % (1000 * 60)) / 1000); 
-                        document.getElementById("demo").innerHTML = days + " day(s) "  
-                        
-                            if (t < 0) { 
-                                clearInterval(x); 
-                                document.getElementById("demo").innerHTML = "EXPIRED"; 
-                            } 
-                        }, 1000); 
+    

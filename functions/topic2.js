@@ -1,4 +1,5 @@
 // Libraries
+const nodemailer = require('nodemailer')
 
 
 // Models
@@ -236,6 +237,8 @@ const answer = (req,res)=>{
                     let data = new Answer({
                         fellow_id: req.user.id,
                         course_id: id,
+                        course_title:course.title,
+                        time:date.time,
                         week_id: id2,
                         topic_id: id3,
                         topic_title: topic.title,

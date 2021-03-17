@@ -149,6 +149,9 @@ const add_form_data = (req, res) => {
 
 }
 
+const view_answers = (req,res)=>{
+
+}
 //Export Functions
 module.exports = {
     view_topic: view_topic,
@@ -156,6 +159,7 @@ module.exports = {
     edit_topic: edit_topic,
     load_form_data: load_form_data,
     add_form_data: add_form_data,
-    delete_topic: delete_topic
+    delete_topic: delete_topic,
+    view_answers:view_answers
 
 }

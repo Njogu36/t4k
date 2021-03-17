@@ -105,6 +105,8 @@ route.get('/view_kpis/:id',auth_user,fellow.view_kpis)
 route.get('/view_assignments/:id',auth_user,fellow.view_assignments)
 route.get('/delete_fellow/:id/:id2',auth_user,fellow.delete_fellow)
 route.get('/view_answer/:id/:id2/:id3',auth_user,fellow.view_answer)
+route.get('/view_answers/:id',auth_user,fellow.view_answers)
+
 
 route.post('/add_feedback/:id/:id2/:id3/:id4',auth_user,fellow.add_feedback)
 route.post('/edit_fellow/:id/:id2',auth_user,fellow.edit_fellow_post)

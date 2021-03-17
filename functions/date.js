@@ -17,6 +17,7 @@ module.exports = {
   second:addZero(date.getSeconds()),
   year:year,
   day:day,
+  time:addZero(date.getHours())+":"+addZero(date.getMinutes())+":"+addZero(date.getSeconds()),
   month:month,
   today:today,
   random:Math.floor(100000 + Math.random() * 900000),

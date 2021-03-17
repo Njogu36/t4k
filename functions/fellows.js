@@ -343,6 +343,31 @@ const add_feedback =(req,res)=>{
     })
 
 }
+const view_answers = (req,res)=>{
+    const id = req.params.id;
+  
+    Cohort.findById(id, (err, cohort) => {
+         
+                      Answer.find({cohort_id:id},(err,answers)=>{
+                        res.render('./administrator/account/fellows/view_answers.jade', {
+                            user: req.user,
+                            cohort: cohort,
+            
+                            year: date.year,
+                           
+                            answers:answers
+                        })
+                      }).sort({_id:-1})
+                       
+                   
+
+        
+
+        
+     
+
+    })
+}
 // Exported Functions
 module.exports = {
     fellows_page: fellows_page,
@@ -356,6 +381,7 @@ add_feedback:add_feedback,
     edit_fellow_image: edit_fellow_image,
     edit_fellow_post: edit_fellow_post,
     delete_fellow: delete_fellow,
-    view_answer: view_answer
+    view_answer: view_answer,
+    view_answers:view_answers
 
 }

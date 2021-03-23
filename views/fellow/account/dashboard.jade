@@ -143,6 +143,10 @@ html
                                                         a(href=read.file,target='_blank',style='color:white',download).btn.btn-success.btn-sm Download File
                                                           &nbsp;
                                                           i.fa.fa-download
+                                                        &nbsp;&nbsp;
+                                                        a(href=read.file,target='_blank',style='color:white').btn.btn-dark.btn-sm Preview File
+                                                          &nbsp;
+                                                          i.fa.fa-eye
                               if read.by === user.first_name + ' '+user.last_name
                                           &nbsp;
                                           a(href='/delete_article/#{read.id}',style='color:white').btn.btn-danger.btn-sm Delete

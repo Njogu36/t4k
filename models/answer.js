@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const answerSchema = mongoose.Schema({
     fellow_id: String,
     fellow:{},
+    cohort_id:String,
+    fullname:String,
     course_id: String,
     course_title:String,
     week_id: String,
